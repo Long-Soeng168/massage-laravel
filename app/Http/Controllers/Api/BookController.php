@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\BookCategory;
+use App\Models\Package;
 use App\Models\Service;
 
 class BookController extends Controller
@@ -113,6 +114,82 @@ class BookController extends Controller
                 $sub_query->where('title', 'LIKE', '%' . $search . '%')
                     ->orWhere('year', 'LIKE', '%' . $search . '%')
                     ->orWhere('short_description', 'LIKE', '%' . $search . '%');
+            });
+        }
+
+
+
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+
+        if ($subCategoryId) {
+            $query->where('sub_category_id', $subCategoryId);
+        }
+
+        if ($priceFrom) {
+            $query->where('price', '>=', $priceFrom);
+        }
+
+        if ($priceTo) {
+            $query->where('price', '<=', $priceTo);
+        }
+
+        if ($yearFrom) {
+            $query->where('year', '>=', $yearFrom);
+        }
+
+        if ($yearTo) {
+            $query->where('year', '<=', $yearTo);
+        }
+
+        if ($brandId) {
+            $query->where('brand_id', $brandId);
+        }
+
+        if ($publisherId) {
+            $query->where('publisher_id', $publisherId);
+        }
+
+        if ($randomOrder == 1) {
+            $query->inRandomOrder();
+        } else {
+            if ($orderBy == 'bestSelling') {
+                $query->withCount('invoice_items')->orderBy('invoice_items_count', $orderDir);
+            } elseif ($orderBy == 'totalView') {
+                $query->orderBy('view_count', $orderDir);
+            } else {
+                $query->orderBy($orderBy, $orderDir);
+            }
+        }
+
+        // Paginate results with the specified number per page
+        $books = $query->where('status', 1)->paginate($perPage);
+
+        return response()->json($books);
+    }
+
+    public function packages(Request $request)
+    {
+        $perPage = $request->perPage ?? 12;
+        $search = $request->search;
+        $categoryId = $request->categoryId;
+        $priceFrom = $request->priceFrom;
+        $priceTo = $request->priceTo;
+        $yearFrom = $request->yearFrom;
+        $yearTo = $request->yearTo;
+        $brandId = $request->brandId;
+        $publisherId = $request->publisherId;
+        $subCategoryId = $request->subCategoryId;
+        $randomOrder = $request->randomOrder ?? 0;
+        $orderBy = $request->orderBy ?? 'id';
+        $orderDir = strtolower($request->orderDir) === 'asc' ? 'asc' : 'desc'; // Ensure 'asc' or 'desc'
+
+        $query = Package::query();
+
+        if ($search) {
+            $query->where(function ($sub_query) use ($search) {
+                $sub_query->where('name', 'LIKE', '%' . $search . '%');
             });
         }
 

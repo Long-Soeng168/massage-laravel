@@ -78,7 +78,7 @@ Route::get('contact', [ContactController::class, 'index']);
 Route::get('about', [AboutController::class, 'index']);
 Route::get('books', [BookController::class, 'index']);
 Route::get('products', [BookController::class, 'index']);
-Route::get('packages', [BookController::class, 'index']);
+Route::get('packages', [BookController::class, 'packages']);
 Route::get('services', [BookController::class, 'services']);
 Route::get('books/{id}', [BookController::class, 'show']);
 Route::get('products/{id}', [BookController::class, 'show']);
