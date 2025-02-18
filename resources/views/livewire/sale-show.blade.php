@@ -161,6 +161,7 @@
                             <th scope="col" class="px-4 py-3">No</th>
                             <th scope="col" class="px-4 py-3">Image</th>
                             <th scope="col" class="px-4 py-3">Title</th>
+                            <th scope="col" class="px-4 py-3">Item Type</th>
                             <th scope="col" class="px-4 py-3">Price</th>
                             <th scope="col" class="px-4 py-3 text-center">Quantity</th>
                             <th scope="col" class="px-4 py-3 text-center">SubTotal</th>
@@ -194,6 +195,9 @@
 
                                 </th>
                                 <x-table-data value="{{ $item->title }}" />
+                                <x-table-data>
+                                    <span class="p-2 capitalize bg-blue-100">{{ $item->type }}</span>
+                                </x-table-data>
                                 <x-table-data>
                                     @if ($item->discount > 0)
                                         <span class="line-through">{{ $item->price }}</span>

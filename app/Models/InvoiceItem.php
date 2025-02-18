@@ -22,10 +22,10 @@ class InvoiceItem extends Model
     }
     public function service()
     {
-        return $this->belongsTo(Service::class, 'service_id', 'id');
+        return $this->belongsTo(Service::class, 'product_id', 'id');
     }
     public function package()
     {
-        return $this->belongsTo(Package::class, 'package_id', 'id');
+        return $this->belongsTo(Package::class, 'product_id', 'id');
     }
 }
