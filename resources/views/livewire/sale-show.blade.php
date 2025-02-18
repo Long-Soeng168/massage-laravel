@@ -176,13 +176,24 @@
                                 </td>
                                 <th scope="row"
                                     class="flex items-center px-4 py-2 font-medium text-gray-900 dark:text-white">
-                                    <a href="{{ asset('assets/images/isbn/' . $item->product?->image) }}"
-                                        class="glightbox">
-                                        <img src="{{ asset('assets/images/isbn/thumb/' . $item->product?->image) }}"
-                                            alt="iMac Front Image" class="object-contain h-10 mr-3 aspect-[16/9]">
-                                    </a>
+                                    @switch($item->type)
+                                        @case('service')
+                                            <img src="{{ asset('assets/images/isbn/thumb/' . $item->service?->image) }}"
+                                                alt="Image" class="object-contain h-10 mr-3 aspect-[16/9]">
+                                        @break
+
+                                        @case('package')
+                                            <img src="{{ asset('assets/images/isbn/thumb/' . $item->package?->image) }}"
+                                                alt="Image" class="object-contain h-10 mr-3 aspect-[16/9]">
+                                        @break
+
+                                        @default
+                                            <img src="{{ asset('assets/images/isbn/thumb/' . $item->product?->image) }}"
+                                                alt="Image" class="object-contain h-10 mr-3 aspect-[16/9]">
+                                    @endswitch
+
                                 </th>
-                                <x-table-data value="{{ $item->product?->title }}" />
+                                <x-table-data value="{{ $item->title }}" />
                                 <x-table-data>
                                     @if ($item->discount > 0)
                                         <span class="line-through">{{ $item->price }}</span>
@@ -229,24 +240,24 @@
                                     </div>
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td class="px-4 py-4">No Data...</td>
-                            </tr>
-                        @endforelse
+                            @empty
+                                <tr>
+                                    <td class="px-4 py-4">No Data...</td>
+                                </tr>
+                            @endforelse
 
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
 
-                <div class="p-4">
+                    <div class="p-4">
 
-                    <div>{{ $items->links() }}</div>
+                        <div>{{ $items->links() }}</div>
+                    </div>
                 </div>
             </div>
         </div>
+
+
+
     </div>
-
-
-
-</div>

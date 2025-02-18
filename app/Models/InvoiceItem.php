@@ -20,4 +20,12 @@ class InvoiceItem extends Model
     {
         return $this->belongsTo(Book::class, 'product_id', 'id');
     }
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id', 'id');
+    }
+    public function package()
+    {
+        return $this->belongsTo(Package::class, 'package_id', 'id');
+    }
 }
