@@ -53,8 +53,8 @@ class SaleTableData extends Component
     {
         $item = Invoice::findOrFail($id);
 
-        $getedProducts = InvoiceItem::where('invoice_id', $id)->get();
-        if ($item->status == 1) {
+        $getedProducts = InvoiceItem::where('invoice_id', $id)->where('type', 'product')->get();
+        if ($item->status == 1 && (count($getedProducts) > 0)) {
             foreach ($getedProducts as $product) {
                 $book = Book::find($product->product_id);
                 $book->update([
