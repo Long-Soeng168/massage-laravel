@@ -66,7 +66,11 @@
                     <div class="flex items-start justify-start gap-2 ">
                         <strong>{{ __('Pay by : ') }}</strong>
                         <p class="text-start ">
-                            {{ $order->payment?->name ?? 'N/A' }}
+                            @if ($order->paymentTypeId == 0)
+                                Credit
+                            @else
+                                {{ $order->payment?->name ?? 'N/A' }}
+                            @endif
                         </p>
                     </div>
                     <div class="flex items-start justify-start gap-2 ">

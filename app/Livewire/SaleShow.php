@@ -136,7 +136,7 @@ class SaleShow extends Component
     public function render()
     {
         $items = InvoiceItem::where('invoice_id', $this->purchase->id)
-            ->paginate(10);
+            ->orderBy('type')->paginate(10);
 
         return view('livewire.sale-show', [
             'items' => $items,
