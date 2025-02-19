@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use Illuminate\Http\Request;
@@ -52,6 +52,12 @@ class InvoiceController extends Controller
         ]);
 
         // Create the invoice
+        $customer = Customer::find($request->customerId);
+        if ($request->paymentTypeId) {
+            $customer->update([
+                'credit' => $customer->credit - $request->total,
+            ]);
+        }
         $invoice = Invoice::create([
             'customerId' => $validated['customerId'] ?? null,
             'paymentTypeId' => $validated['paymentTypeId'] ?? null,
