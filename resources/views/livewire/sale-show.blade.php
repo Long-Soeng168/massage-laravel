@@ -169,7 +169,7 @@
                             <th scope="col" class="px-4 py-3">Price</th>
                             <th scope="col" class="px-4 py-3 text-center">Quantity</th>
                             <th scope="col" class="px-4 py-3 text-center">SubTotal</th>
-                            <th scope="col" class="py-3 text-center">Action</th>
+                            {{-- <th scope="col" class="py-3 text-center">Action</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -220,7 +220,7 @@
                                 </x-table-data>
 
 
-                                <td class="px-6 py-4">
+                                {{-- <td class="px-6 py-4">
                                     <div class="flex items-start justify-center gap-3">
 
                                         <div class="pb-1" x-data="{ tooltip: false }">
@@ -246,7 +246,7 @@
                                         </div>
 
                                     </div>
-                                </td>
+                                </td> --}}
                             </tr>
                             @empty
                                 <tr>

@@ -150,7 +150,7 @@
                         <td class="px-6 py-4">
                             <div class="flex items-start justify-center gap-3">
 
-                                <div class="pb-1" x-data="{ tooltip: false }">
+                                {{-- <div class="pb-1" x-data="{ tooltip: false }">
                                     <!-- Modal toggle -->
                                     <a href="{{ url('/admin/packages/' . $item->id) }}" @mouseenter="tooltip = true"
                                         @mouseleave="tooltip = false">
@@ -169,7 +169,7 @@
                                         style="display: none;">
                                         View
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 @can('delete stock')
                                     <div class="pb-1" x-data="{ tooltip: false }">
