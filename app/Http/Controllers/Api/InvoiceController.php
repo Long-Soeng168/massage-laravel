@@ -53,7 +53,7 @@ class InvoiceController extends Controller
 
         // Create the invoice
         $customer = Customer::find($request->customerId);
-        if ($request->paymentTypeId) {
+        if ($request->paymentTypeId == 0) {
             $customer->update([
                 'credit' => $customer->credit - $request->total,
             ]);
