@@ -22,6 +22,6 @@ class Customer extends Model
 
     public function packages()
     {
-        return $this->hasMany(CustomerPackage::class, 'customer_id', 'id');
+        return $this->belongsToMany(Package::class, 'customer_packages', 'customer_id', 'package_id')->withPivot('usable_number');
     }
 }
