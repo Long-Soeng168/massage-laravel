@@ -13,7 +13,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $Customers = Customer::all();
+        $Customers = Customer::with('packages')->get();
 
         return response()->json($Customers);
     }
