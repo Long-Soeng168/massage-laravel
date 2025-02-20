@@ -87,6 +87,17 @@ class InvoiceController extends Controller
                 }
             }
 
+            if ($item['type'] == 'use_package') {
+                $customerPackage = CustomerPackage::where('customer_id', $validated['customerId'])
+                    ->where('id', $item['id'])
+                    ->first();
+                if (!empty($customerPackage)) {
+                    $customerPackage->update([
+                        'usable_number' => $customerPackage->usable_number - $item['quantity'],
+                    ]);
+                }
+            }
+
             InvoiceItem::create([
                 'invoice_id' => $invoice->id,
                 'product_id' => $item['id'],
