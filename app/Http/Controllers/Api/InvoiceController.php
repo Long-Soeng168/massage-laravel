@@ -127,6 +127,6 @@ class InvoiceController extends Controller
         //     // Log::error('Notification failed: ' . $e->getMessage());
         // }
 
-        return response()->json(['message' => 'Invoice created successfully', 'invoice' => $invoice->load('items', 'customer', 'payment')], 201);
+        return response()->json(['message' => 'Invoice created successfully', 'invoice' => $invoice->load('items', 'customer.packages', 'payment')], 201);
     }
 }
