@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\CustomerPackage;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\Package;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Notification;
@@ -73,6 +75,15 @@ class InvoiceController extends Controller
         ]);
 
         foreach ($validated['items'] as $item) {
+            if ($item['type'] == 'package') {
+                $package = Package::find($item['id']);
+                CustomerPackage::create([
+                    'customer_id' => $validated['customerId'],
+                    'package_id' => $item['id'],
+                    'usable_number' => $package->usable_number * $item['quantity'],
+                ]);
+            }
+
             InvoiceItem::create([
                 'invoice_id' => $invoice->id,
                 'product_id' => $item['id'],
