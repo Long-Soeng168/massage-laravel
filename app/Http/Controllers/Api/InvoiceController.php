@@ -69,7 +69,7 @@ class InvoiceController extends Controller
         ]);
 
         foreach ($validated['items'] as $item) {
-            if ($item['type'] == 'package') {
+            if ($item['type'] == 'package' && $validated['status'] == 1) {
                 $package = Package::find($item['id']);
                 $customerPackage = CustomerPackage::where('customer_id', $validated['customerId'])
                     ->where('package_id', $item['id'])
@@ -87,7 +87,7 @@ class InvoiceController extends Controller
                 }
             }
 
-            if ($item['type'] == 'use_package') {
+            if ($item['type'] == 'use_package' && $validated['status'] == 1) {
                 $customerPackage = CustomerPackage::where('customer_id', $validated['customerId'])
                     ->where('id', $item['id'])
                     ->first();
