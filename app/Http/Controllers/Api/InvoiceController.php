@@ -89,16 +89,16 @@ class InvoiceController extends Controller
 
             if ($item['type'] == 'use_package' && $validated['status'] == 1) {
                 $customerPackage = CustomerPackage::where('customer_id', $validated['customerId'])
-                    ->where('id', $item['id'])
+                    ->where('package_id', $item['id'])
                     ->first();
                 if (!empty($customerPackage)) {
                     $customerPackage->update([
                         'usable_number' => $customerPackage->usable_number - $item['quantity'],
                     ]);
                 }
-                // if ($customerPackage->usable_number == 0) {
-                //     $customerPackage->delete();
-                // }
+                if ($customerPackage->usable_number == 0) {
+                    $customerPackage->delete();
+                }
             }
 
             InvoiceItem::create([
