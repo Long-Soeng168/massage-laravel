@@ -71,12 +71,21 @@ class InvoiceController extends Controller
         foreach ($validated['items'] as $item) {
             if ($item['type'] == 'package') {
                 $package = Package::find($item['id']);
-                CustomerPackage::create([
-                    'invoice_id' => $invoice->id,
-                    'customer_id' => $validated['customerId'],
-                    'package_id' => $item['id'],
-                    'usable_number' => $package->usable_number * $item['quantity'],
-                ]);
+                $customerPackage = CustomerPackage::where('customer_id', $validated['customerId'])
+                    ->where('package_id', $item['id'])
+                    ->first();
+                if (!empty($customerPackage)) {
+                    $customerPackage->update([
+                        'usable_number' => $customerPackage->usable_number + ($package->usable_number * $item['quantity']),
+                    ]);
+                } else {
+                    CustomerPackage::create([
+                        'invoice_id' => $invoice->id,
+                        'customer_id' => $validated['customerId'],
+                        'package_id' => $item['id'],
+                        'usable_number' => $package->usable_number * $item['quantity'],
+                    ]);
+                }
             }
 
             InvoiceItem::create([
