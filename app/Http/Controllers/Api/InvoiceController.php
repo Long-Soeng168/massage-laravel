@@ -96,9 +96,9 @@ class InvoiceController extends Controller
                         'usable_number' => $customerPackage->usable_number - $item['quantity'],
                     ]);
                 }
-                if ($customerPackage->usable_number <= 0) {
-                    $customerPackage->delete();
-                }
+                // if ($customerPackage->usable_number <= 0) {
+                //     $customerPackage->delete();
+                // }
             }
 
             InvoiceItem::create([
