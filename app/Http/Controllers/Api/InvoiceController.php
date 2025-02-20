@@ -78,6 +78,7 @@ class InvoiceController extends Controller
             if ($item['type'] == 'package') {
                 $package = Package::find($item['id']);
                 CustomerPackage::create([
+                    'invoice_id' => $invoice->id,
                     'customer_id' => $validated['customerId'],
                     'package_id' => $item['id'],
                     'usable_number' => $package->usable_number * $item['quantity'],
