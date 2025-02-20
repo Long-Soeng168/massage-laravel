@@ -54,12 +54,6 @@ class InvoiceController extends Controller
         ]);
 
         // Create the invoice
-        $customer = Customer::find($request->customerId);
-        if ($request->paymentTypeId == 0) {
-            $customer->update([
-                'credit' => $customer->credit - $request->total,
-            ]);
-        }
         $invoice = Invoice::create([
             'customerId' => $validated['customerId'] ?? null,
             'paymentTypeId' => $validated['paymentTypeId'] ?? null,
@@ -94,6 +88,13 @@ class InvoiceController extends Controller
                 'price' => $item['price'],
                 'quantity' => $item['quantity'],
                 'type' => $item['type'] ?? null,
+            ]);
+        }
+
+        $customer = Customer::find($request->customerId);
+        if ($request->paymentTypeId == 0) {
+            $customer->update([
+                'credit' => $customer->credit - $request->total,
             ]);
         }
 
