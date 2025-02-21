@@ -114,7 +114,7 @@ class InvoiceController extends Controller
         }
 
         $customer = Customer::find($request->customerId);
-        if ($request->paymentTypeId == 0) {
+        if ($request->paymentTypeId == 0 && $validated['status'] == 1) {
             $customer->update([
                 'credit' => $customer->credit - $request->total,
             ]);
