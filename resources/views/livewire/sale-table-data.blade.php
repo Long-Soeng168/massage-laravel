@@ -176,7 +176,7 @@
                                 @endif
                             </button>
 
-                            @can('update sale')
+                            @can('update saleeeee')
                                 <div id="popup-modal-user-{{ $item->id }}" tabindex="-1"
                                     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                     <div class="relative w-full max-w-md max-h-full p-4">
