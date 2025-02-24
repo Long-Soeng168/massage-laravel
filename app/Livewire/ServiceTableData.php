@@ -334,7 +334,7 @@ class ServiceTableData extends Component
             // dd($getedItems);
             // session()->flash('message', 'Statuses updated successfully.');
             $this->reset(['selectedItems']);
-            return redirect('/admin/books')->with(['success' => 'Deleted items successfully.']);
+            return redirect('/admin/services')->with(['success' => 'Deleted items successfully.']);
         }
     }
     public function updateMultiStatus($statusValue)
@@ -351,7 +351,7 @@ class ServiceTableData extends Component
             // dd($getedItems);
             // session()->flash('message', 'Statuses updated successfully.');
             $this->reset(['selectedItems']); // Reset selection
-            return redirect('/admin/books')->with(['success' => 'Statuses updated successfully.']);
+            return redirect('/admin/services')->with(['success' => 'Statuses updated successfully.']);
         }
     }
 
