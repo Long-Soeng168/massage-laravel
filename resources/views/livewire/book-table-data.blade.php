@@ -163,7 +163,7 @@
         {{-- End Category Select --}}
 
         {{-- Start Sub-Category Select --}}
-        <div class="relative w-full group">
+        {{-- <div class="relative w-full group">
             <x-input-label for="sub_category_id" :value="__('Sub-Category')" />
             <div class="flex flex-1 gap-1 mt-1">
                 <div class="flex justify-start flex-1 min-h-[2.5rem]">
@@ -184,7 +184,7 @@
 
             </div>
             <x-input-error :messages="$errors->get('sub_category_id')" class="mt-2" />
-        </div>
+        </div> --}}
         {{-- End Sub-Category Select --}}
 
         <div class="flex-1">
