@@ -305,7 +305,7 @@
                     <th scope="col" class="px-4 py-3">Code</th>
                     <th scope="col" class="px-4 py-3">Category</th>
                     <th scope="col" class="px-4 py-3">Brand</th>
-                    <th scope="col" class="px-4 py-3 text-center">Status</th>
+                    {{-- <th scope="col" class="px-4 py-3 text-center">Status</th> --}}
                     <th scope="col" class="px-4 py-3 text-center">Total View</th>
                     <th scope="col" class="py-3 text-center">Action</th>
                 </tr>
@@ -347,7 +347,7 @@
                         <x-table-data value="{{ $item->code ?? 'N/A' }}" class="text-gray-400 whitespace-nowrap" />
                         <x-table-data class="text-center" value="{{ $item->category?->name ?? 'N/A' }}" />
                         <x-table-data class="text-center" value="{{ $item->brand?->name ?? 'N/A' }}" />
-                        <td wire:key='{{ rand() }}' class="text-center">
+                        {{-- <td wire:key='{{ rand() }}' class="text-center">
 
                             <button data-modal-target="popup-modal-user-{{ $item->id }}"
                                 data-modal-toggle="popup-modal-user-{{ $item->id }}">
@@ -405,7 +405,7 @@
                                 </div>
                             @endcan
 
-                        </td>
+                        </td> --}}
                         <x-table-data class="text-center" value="{{ $item->view_count }}" />
 
                         <td class="px-6 py-4">
