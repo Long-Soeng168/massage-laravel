@@ -736,31 +736,31 @@
                                 </svg>
                             </button>
                             <ul x-show="open" x-transition class="py-2 ml-2 space-y-2" x-ref="dropdown">
-                                <li>
+                                {{-- <li>
                                     <a href="{{ url('admin/settings/slides') }}"
                                         class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/settings/slides*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
                                         Slides
                                     </a>
-                                </li>
+                                </li> --}}
                                 {{-- <li>
                                     <a href="{{ url('admin/settings/menus') }}"
                                         class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/settings/menus*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
                                         Menus
                                     </a>
                                 </li> --}}
-                                <li>
+                                {{-- <li>
                                     <a href="{{ url('admin/settings/links') }}"
                                         class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/settings/links*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
                                         Links
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li>
                                     <a href="{{ url('admin/settings/payments') }}"
                                         class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/settings/payments*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
                                         Payment Methods
                                     </a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a href="{{ url('admin/settings/features') }}"
                                         class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/settings/features*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
                                         Features
@@ -783,7 +783,7 @@
                                         class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/settings/about*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
                                         About
                                     </a>
-                                </li>
+                                </li> --}}
 
                                 <li>
                                     <a href="{{ url('admin/settings/website_infos/1/edit') }}"
