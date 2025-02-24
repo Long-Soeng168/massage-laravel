@@ -150,15 +150,16 @@
                             </a>
                         </th>
                         <x-table-data value="{{ $item->title }}" />
-                        <x-table-data value="{{ $item->quantity }}" class="text-center {{ $item->quantity < 10 ? 'text-red-400' : 'text-green-700' }}" />
+                        <x-table-data value="{{ $item->quantity }}"
+                            class="text-center {{ $item->quantity < 10 ? 'text-red-400' : 'text-green-700' }}" />
 
                         <td class="px-6 py-4">
                             <div class="flex items-start justify-center gap-3">
 
                                 <div class="pb-1" x-data="{ tooltip: false }">
                                     <!-- Modal toggle -->
-                                    <a href="{{ url('/admin/books/' . $item->id) }}" @mouseenter="tooltip = true"
-                                        @mouseleave="tooltip = false">
+                                    <a href="{{ url('/admin/books/' . $item->id . '/edit') }}"
+                                        @mouseenter="tooltip = true" @mouseleave="tooltip = false">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
