@@ -20,6 +20,7 @@ class ServiceCreate extends Component
     public $cost = null;
     public $quantity = 0;
     public $discount = null;
+    public $code = null;
     public $year = null;
     public $short_description = null;
     public $description = null;
@@ -63,6 +64,7 @@ class ServiceCreate extends Component
             'cost' => 'nullable',
             'quantity' => 'nullable',
             'discount' => 'nullable',
+            'code' => 'nullable',
             'image' => 'nullable|image|max:2048',
             'year' => 'nullable',
             'short_description' => 'nullable|string',

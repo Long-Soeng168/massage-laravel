@@ -442,12 +442,12 @@
                                         Categories
                                     </a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a href="{{ url('admin/sub_categories') }}"
                                         class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/sub_categories*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
                                         Sub Categories
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li>
                                     <a href="{{ url('admin/brands') }}"
                                         class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/brands*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
@@ -520,7 +520,7 @@
                         </li>
                     @endcan
 
-                    @can('view promotion')
+                    {{-- @can('view promotion')
                         <li class="mt-2">
                             <x-sidebar-item href="{{ url('admin/promotions') }}"
                                 class="{{ request()->is('admin/promotions*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
@@ -529,7 +529,7 @@
                                 <span class="ml-3">Promotions</span>
                             </x-sidebar-item>
                         </li>
-                    @endcan
+                    @endcan --}}
 
                     @can('view stock')
                         <li x-data="{
@@ -579,7 +579,7 @@
                         </li>
                     @endcan
 
-                    @can('view news')
+                    {{-- @can('view news')
                         <li x-data="{
                             open: {{ request()->is('admin/bulletins*') || request()->is('admin/bulletins_categories*') ? 'true' : 'false' }},
                             init() {
@@ -617,7 +617,7 @@
                                 </li>
                             </ul>
                         </li>
-                    @endcan
+                    @endcan --}}
 
                     @can('view user')
                         <li x-data="{

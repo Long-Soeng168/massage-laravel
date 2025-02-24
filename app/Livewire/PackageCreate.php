@@ -33,6 +33,7 @@ class PackageCreate extends Component
     public $total_amount = 0;
     public $name = null;
     public $package_price = null;
+    public $code = null;
     public $usable_number = 1;
     public $purchase_date = null;
     public function mount()
@@ -97,6 +98,7 @@ class PackageCreate extends Component
             'usable_number' => 'required',
             'name' => 'required',
             'package_price' => 'required',
+            'code' => 'nullable',
         ]);
 
         // dd('hello');
@@ -111,6 +113,7 @@ class PackageCreate extends Component
             'user_id' => request()->user()->id,
             'total_amount' => $this->total_amount * $this->usable_number,
             'price' => $this->package_price,
+            'code' => $this->code,
             'usable_number' => $this->usable_number,
             'name' => $this->name,
         ]);

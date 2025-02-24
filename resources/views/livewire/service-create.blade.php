@@ -94,6 +94,14 @@
                             <x-input-error :messages="$errors->get('price')" class="mt-2" />
                         </div>
                     </div>
+                    <div class="flex gap-4">
+                        <div class="flex-1">
+                            <x-input-label for="code" :value="__('Code')" />
+                            <x-text-input wire:model='code' id="code" class="block w-full mt-1" type="number"
+                                name="code" placeholder='Example : 000001' :value="old('code')" autocomplete="code" />
+                            <x-input-error :messages="$errors->get('code')" class="mt-2" />
+                        </div>
+                    </div>
 
                     {{-- Start Image Upload --}}
                     <div class="flex items-center mb-5 md:col-span-2 space-4" wire:key='uploadimage'>
@@ -177,8 +185,8 @@
                 Save
             </button>
             <span wire:target="save" wire:loading>
-                <img class="inline w-6 h-6 text-white me-2 animate-spin"
-                    src="{{ asset('assets/images/reload.png') }}" alt="reload-icon">
+                <img class="inline w-6 h-6 text-white me-2 animate-spin" src="{{ asset('assets/images/reload.png') }}"
+                    alt="reload-icon">
                 Saving
             </span>
             <span wire:target="file,image" wire:loading class="dark:text-white">

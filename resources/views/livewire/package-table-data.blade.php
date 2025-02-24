@@ -124,6 +124,7 @@
                 <tr>
                     <th scope="col" class="px-4 py-3">No</th>
                     <th scope="col" class="px-4 py-3 ">Package Name</th>
+                    <th scope="col" class="px-4 py-3 ">Code</th>
                     <th scope="col" class="px-4 py-3 ">Real Cost</th>
                     <th scope="col" class="px-4 py-3 ">Price</th>
                     <th scope="col" class="px-4 py-3 ">Usable Number</th>
@@ -141,6 +142,7 @@
                         </td>
 
                         <x-table-data value="{{ $item->name ?? 'N/A' }}" class="text-gray-700" />
+                        <x-table-data value="{{ $item->code ?? 'N/A' }}" class="text-gray-700" />
                         <x-table-data value="$ {{ $item->total_amount ?? 'N/A' }}" class="text-gray-600" />
                         <x-table-data value="$ {{ $item->price ?? 'N/A' }}" class="text-red-400" />
                         <x-table-data value="{{ $item->usable_number ?? 'N/A' }}" class="text-black" />

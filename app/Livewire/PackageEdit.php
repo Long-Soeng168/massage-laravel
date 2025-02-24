@@ -38,6 +38,7 @@ class PackageEdit extends Component
     public $total_amount = 0;
     public $name = null;
     public $package_price = null;
+    public $code = null;
     public $usable_number = 1;
 
     public function mount($id)
@@ -50,6 +51,7 @@ class PackageEdit extends Component
         $this->name = $this->purchase_item->name ?? null;
         $this->total_amount = $this->purchase_item->total_amount ?? 0;
         $this->package_price = $this->purchase_item->price ?? null;
+        $this->code = $this->purchase_item->code ?? null;
         $this->usable_number = $this->purchase_item->usable_number ?? null;
 
         $purchase_items = PackageItem::where('package_id', $id)->with('service')->get();
@@ -121,6 +123,7 @@ class PackageEdit extends Component
             'usable_number' => 'required',
             'name' => 'required',
             'package_price' => 'required',
+            'code' => 'nullable',
         ]);
 
         // dd('hello');
@@ -137,6 +140,7 @@ class PackageEdit extends Component
             'updated_user_id' => request()->user()->id,
             'total_amount' => $this->total_amount * $this->usable_number,
             'price' => $this->package_price,
+            'code' => $this->code,
             'usable_number' => $this->usable_number,
             'name' => $this->name,
         ]);
@@ -151,7 +155,6 @@ class PackageEdit extends Component
                 'price' => $product['price'],
                 'subtotal' => $product['price'],
             ]);
-
         }
 
         session()->flash('success', 'Package updated successfully!');

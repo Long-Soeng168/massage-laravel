@@ -272,8 +272,8 @@
 
                     <div>
                         <x-input-label for="name" :value="__('Package Name')" /><span class="text-red-400">*</span>
-                        <x-text-input wire:model.live='name' id="name" class="block w-full mt-1"
-                            type="text" name="name" :value="old('name')" autocomplete="name" />
+                        <x-text-input wire:model.live='name' id="name" class="block w-full mt-1" type="text"
+                            name="name" :value="old('name')" autocomplete="name" />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
                     <div>
@@ -285,20 +285,21 @@
                     <div>
                         <x-input-label for="services_real_cost" :value="__('All Services Real Cost ($)')" /><span
                             class="text-red-400">*</span>
-                        <x-text-input id="services_real_cost" disabled
-                            class="block w-full mt-1" type="text" name="services_real_cost"
-                            :value="number_format($total, 2) * (int) $usable_number"
-                            autocomplete="services_real_cost" />
+                        <x-text-input id="services_real_cost" disabled class="block w-full mt-1" type="text"
+                            name="services_real_cost" :value="number_format($total, 2) * (int) $usable_number" autocomplete="services_real_cost" />
                         <x-input-error :messages="$errors->get('services_real_cost')" class="mt-2" />
                     </div>
                     <div>
-                        <x-input-label for="package_price" :value="__('Package Price ($)')" /><span
-                            class="text-red-400">*</span>
-                        <x-text-input wire:model='package_price' id="package_price"
-                            class="block w-full mt-1" type="text" name="package_price"
-                            :value="number_format($total, 2) * (int) $usable_number"
-                            autocomplete="package_price" />
+                        <x-input-label for="package_price" :value="__('Package Price ($)')" /><span class="text-red-400">*</span>
+                        <x-text-input wire:model='package_price' id="package_price" class="block w-full mt-1"
+                            type="text" name="package_price" :value="number_format($total, 2) * (int) $usable_number" autocomplete="package_price" />
                         <x-input-error :messages="$errors->get('package_price')" class="mt-2" />
+                    </div>
+                    <div>
+                        <x-input-label for="code" :value="__('Code')" /><span class="text-red-400">*</span>
+                        <x-text-input wire:model='code' id="code" class="block w-full mt-1" type="text"
+                            name="code" :value="number_format($total, 2) * (int) $usable_number" autocomplete="code" />
+                        <x-input-error :messages="$errors->get('code')" class="mt-2" />
                     </div>
                 </div>
 

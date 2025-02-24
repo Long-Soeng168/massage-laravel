@@ -10,45 +10,45 @@ use Illuminate\Support\Facades\Auth;
 
 class IsbnRequestController extends Controller
 {
-     // Display all ISBN Requests
-     public function index()
-     {
-         return view('isbn_requests.index');
-     }
+    // Display all ISBN Requests
+    public function index()
+    {
+        return view('isbn_requests.index');
+    }
 
-     // Show the form for creating a new ISBN request
-     public function create()
-     {
-         return view('isbn_requests.create');
-     }
+    // Show the form for creating a new ISBN request
+    public function create()
+    {
+        return view('isbn_requests.create');
+    }
 
-     public function publisher($id)
-     {
-         return view('isbn_requests.publisher', compact('id'));
-     }
+    public function publisher($id)
+    {
+        return view('isbn_requests.publisher', compact('id'));
+    }
 
-     public function show($id)
-     {
-         return view('isbn_requests.show', compact('id'));
-     }
+    public function show($id)
+    {
+        return view('isbn_requests.show', compact('id'));
+    }
 
-     public function edit($id)
-     {
-         return view('isbn_requests.edit', compact('id'));
-     }
+    public function edit($id)
+    {
+        return view('isbn_requests.edit', compact('id'));
+    }
 
 
-     public function publisher_register()
-     {
+    public function publisher_register()
+    {
         return view('isbn_requests.publisher_register');
-     }
+    }
 
-     public function admin_login()
-     {
+    public function admin_login()
+    {
         return view('isbn_requests.admin_login');
-     }
+    }
 
-     public function store_admin_login(Request $request)
+    public function store_admin_login(Request $request)
     {
         // Validate the email and password inputs
         $request->validate([
@@ -57,7 +57,7 @@ class IsbnRequestController extends Controller
         ]);
 
         // Attempt to log in using the provided credentials
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->filled('remember'))) {
             // If successful, redirect to the desired route (e.g., dashboard or homepage)
             return redirect('/')->with('success', 'Registration successful!');
         }
@@ -69,9 +69,9 @@ class IsbnRequestController extends Controller
     }
 
 
-     public function store_publisher_register(Request $request)
-     {
-       // Validate input fields
+    public function store_publisher_register(Request $request)
+    {
+        // Validate input fields
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -105,6 +105,5 @@ class IsbnRequestController extends Controller
 
         // Redirect to the desired route after login
         // return redirect('isbn_requests/create')->with('success', 'Registration successful!');
-     }
-
+    }
 }

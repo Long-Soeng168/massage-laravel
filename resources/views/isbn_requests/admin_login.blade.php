@@ -385,17 +385,22 @@
                         <div class="login__field">
                             <i class="login__icon fas fa-user"></i>
                             <input type="text" class="login__input" placeholder="{{ __('messages.email') }}"
-                                value="superadmin@gmail.com"
                                 name="email" value="" {{-- value="{{ old('email') }}" --}}>
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>
                         <div class="login__field">
                             <i class="login__icon fas fa-lock"></i>
                             <input type="password" name="password" class="login__input" name="email"
-                                value="superadmin_user_@password"
                                 placeholder="{{ __('messages.password') }}">
                             <x-input-error :messages="$errors->get('password')" class="mt-2" />
                         </div>
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" id="remember" name="remember"
+                                class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            <label for="remember"
+                                class="text-base text-gray-700 select-none">{{ __('Remember Me') }}</label>
+                        </div>
+
                         <button class="button login__submit">
                             <span class="button__text">{{ __('messages.loginNow') }}</span>
                             <i class="button__icon fas fa-chevron-right"></i>

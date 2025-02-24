@@ -113,7 +113,7 @@
                             name="discount" placeholder='Example: 30%' :value="old('discount')" autocomplete="discount" />
                         <x-input-error :messages="$errors->get('discount')" class="mt-2" />
                     </div>
-                    <div class="col-span-2">
+                    <div class="">
                         <x-input-label for="code" :value="__('Code (Can use product Barcode)')" />
                         <x-text-input wire:model='code' id="code" class="block w-full mt-1" type="text"
                             name="code" placeholder='Example: 000001' :value="old('code')" autocomplete="code" />
@@ -158,11 +158,11 @@
                         <x-input-error :messages="$errors->get('brand_id')" class="mt-2" />
                     </div>
 
-                    <div class="grid gap-4 md:col-span-2 md:grid-cols-2">
+                    <div class="">
                         {{-- Start Category Select --}}
                         <div class="relative w-full mb-5 group">
                             <x-input-label for="category_id" :value="__('Category')" />
-                            <div class="flex flex-1 gap-1 mt-1">
+                            <div class="flex flex-1 gap-1 mt-1 min-h-[2.5rem]">
                                 <div class="flex justify-start flex-1">
                                     <x-select-option wire:model.live='category_id' id="category_id"
                                         name="category_id" class="category-select">
@@ -182,7 +182,7 @@
                         {{-- End Category Select --}}
 
                         {{-- Start Sub-Category Select --}}
-                        <div class="relative w-full mb-5 group">
+                        {{-- <div class="relative w-full mb-5 group">
                             <x-input-label for="sub_category_id" :value="__('Sub-Category')" />
                             <div class="flex flex-1 gap-1 mt-1">
                                 <div class="flex justify-start flex-1">
@@ -204,7 +204,7 @@
 
                             </div>
                             <x-input-error :messages="$errors->get('sub_category_id')" class="mt-2" />
-                        </div>
+                        </div> --}}
                         {{-- End Sub-Category Select --}}
                     </div>
 
