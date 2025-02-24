@@ -542,7 +542,7 @@
                 class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
                 <ul class="py-2 text-sm text-gray-700 border border-black rounded-lg shadow dark:text-gray-700 bg-gray-50 dark:text-gray-200"
                     aria-labelledby="dropdownDefaultButtonMultiAction">
-                    <li>
+                    {{-- <li>
                         <button
                             class="block w-full px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                             wire:click="updateMultiStatus({{ 1 }})">
@@ -555,7 +555,7 @@
                             wire:click="updateMultiStatus({{ 0 }})">
                             Set Not-Public
                         </button>
-                    </li>
+                    </li> --}}
                     {{-- <li>
                         <button wire:click="exportMutiItems()"
                             class="block w-full px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 dark:hover:text-white">
