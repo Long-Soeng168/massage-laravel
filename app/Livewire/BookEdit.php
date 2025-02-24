@@ -26,6 +26,7 @@ class BookEdit extends Component
     public $cost = null;
     public $quantity = 0;
     public $discount = null;
+    public $code = null;
     public $year = null;
     public $short_description = null;
     public $description = null;
@@ -50,6 +51,7 @@ class BookEdit extends Component
         $this->sub_category_id = $this->item->sub_category_id;
         $this->short_description = $this->item->short_description;
         $this->discount = $this->item->discount;
+        $this->code = $this->item->code;
         $this->year = $this->item->year;
     }
 
@@ -83,6 +85,7 @@ class BookEdit extends Component
             'cost' => 'nullable',
             'quantity' => 'nullable',
             'discount' => 'nullable',
+            'code' => 'nullable',
             'year' => 'nullable',
             'short_description' => 'nullable|string',
             'description' => 'nullable|string',

@@ -101,7 +101,7 @@
                     @endif
 
 
-                    <div wire:key='{{ $update_status }}' class="flex items-center gap-2">
+                    {{-- <div wire:key='{{ $update_status }}' class="flex items-center gap-2">
                         <strong>{{ __('Status : ') }}</strong>
 
                         <button :key={{ rand() }} id="dropdownDefaultButton"
@@ -114,7 +114,7 @@
                                     stroke-width="2" d="m1 1 4 4 4-4" />
                             </svg>
                         </button>
-                        {{-- <div id="dropdown-{{ $order->id }}"
+                        <div id="dropdown-{{ $order->id }}"
                             class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                 aria-labelledby="dropdownDefaultButton-{{ $order->id }}">
@@ -131,8 +131,8 @@
                                     </button>
                                 </li>
                             </ul>
-                        </div> --}}
-                    </div>
+                        </div>
+                    </div> --}}
 
                 </div>
             </div>

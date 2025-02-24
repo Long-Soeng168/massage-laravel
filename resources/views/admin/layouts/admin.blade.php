@@ -668,7 +668,7 @@
                         </li>
                     @endcan
 
-                    @can('view order')
+                    {{-- @can('view order')
                         <li class="mt-2">
                             <x-sidebar-item href="{{ url('admin/orders') }}"
                                 class="{{ request()->is('admin/orders*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
@@ -687,7 +687,7 @@
                             </x-sidebar-item>
 
                         </li>
-                    @endcan
+                    @endcan --}}
 
                     @can('view sale')
                         <li class="mt-2">

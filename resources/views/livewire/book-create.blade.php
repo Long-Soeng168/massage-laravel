@@ -113,6 +113,12 @@
                             name="discount" placeholder='Example: 30%' :value="old('discount')" autocomplete="discount" />
                         <x-input-error :messages="$errors->get('discount')" class="mt-2" />
                     </div>
+                    <div class="col-span-2">
+                        <x-input-label for="code" :value="__('Code (Can use product Barcode)')" />
+                        <x-text-input wire:model='code' id="code" class="block w-full mt-1" type="text"
+                            name="code" placeholder='Example: 000001' :value="old('code')" autocomplete="code" />
+                        <x-input-error :messages="$errors->get('code')" class="mt-2" />
+                    </div>
                     <div class="relative z-0 w-full group">
                         <x-input-label for="year" :value="__('Release Year')" />
                         <div class="flex flex-1 gap-1 mt-1 min-h-[2.5rem]">

@@ -302,7 +302,7 @@
                         </div>
                     </th>
                     <th scope="col" class="px-4 py-3">Price</th>
-                    <th scope="col" class="px-4 py-3 text-center">Release Year</th>
+                    <th scope="col" class="px-4 py-3">Code</th>
                     <th scope="col" class="px-4 py-3">Category</th>
                     <th scope="col" class="px-4 py-3">Brand</th>
                     <th scope="col" class="px-4 py-3 text-center">Status</th>
@@ -329,7 +329,7 @@
                         </th>
                         <x-table-data value="{{ $item->title ?? 'N/A' }}" />
                         <x-table-data value="$ {{ $item->price ?? 'N/A' }}" class="text-red-400 whitespace-nowrap" />
-                        <x-table-data class="text-center" value="{{ $item->year?? 'N/A' }}" />
+                        <x-table-data value="{{ $item->code ?? 'N/A' }}" class="text-gray-400 whitespace-nowrap" />
                         <x-table-data class="text-center" value="{{ $item->category?->name ?? 'N/A' }}" />
                         <x-table-data class="text-center" value="{{ $item->brand?->name ?? 'N/A' }}" />
                         <td wire:key='{{ rand() }}' class="text-center">
@@ -395,7 +395,7 @@
 
                         <td class="px-6 py-4">
                             <div class="flex items-start justify-center gap-3">
-{{--
+                                {{--
                                 <div class="pb-1" x-data="{ tooltip: false }">
                                     <!-- Modal toggle -->
                                     <a href="{{ 'https://www.scholarkh.com/en/products/' . $item->id }}"
