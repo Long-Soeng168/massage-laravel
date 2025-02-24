@@ -12,7 +12,9 @@ use Livewire\WithPagination;
 
 use App\Models\Link;
 use App\Models\News;
+use App\Models\Package;
 use App\Models\Publisher;
+use App\Models\Service;
 use App\Models\Supplier;
 use App\Models\User;
 
@@ -64,7 +66,9 @@ class DashboardTableData extends Component
     public function render()
     {
 
-        $items = Book::count();
+        $products = Book::count();
+        $services = Service::count();
+        $packages = Package::count();
         $items_with_file = Book::count();
         $brands = BookBrand::count();
         $customers = Customer::count();
@@ -73,7 +77,9 @@ class DashboardTableData extends Component
         $users = User::count();
 
         $counts = [
-            'items' => $items ?? 0,
+            'products' => $products ?? 0,
+            'services' => $services ?? 0,
+            'packages' => $packages ?? 0,
             'items_with_file' => $items_with_file ?? 0,
             'brands' => $brands ?? 0,
             'customers' => $customers ?? 0,

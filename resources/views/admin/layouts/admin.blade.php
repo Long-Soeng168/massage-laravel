@@ -406,8 +406,16 @@
                                 class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/books*') || request()->is('admin/services*') || request()->is('admin/packages*') || request()->is('admin/brands*') || request()->is('admin/categories*') || request()->is('admin/sub_categories*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}"
                                 :class="{ 'bg-slate-100 dark:bg-slate-700': open }"
                                 @click="open = !open; if (open) $nextTick(() => $refs.users.scrollIntoView({ behavior: 'smooth' }))">
-                                <img src="{{ asset('assets/icons/books.png') }}" alt="icon"
-                                    class="object-contain w-8 h-8 bg-white rounded dark:bg-gray-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-list">
+                                    <rect width="7" height="7" x="3" y="3" rx="1" />
+                                    <rect width="7" height="7" x="3" y="14" rx="1" />
+                                    <path d="M14 4h7" />
+                                    <path d="M14 9h7" />
+                                    <path d="M14 15h7" />
+                                    <path d="M14 20h7" />
+                                </svg>
                                 <span class="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Items</span>
                                 <svg class="w-3 h-3 transition-transform duration-200 transform"
                                     :class="{ 'rotate-180': open }" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
