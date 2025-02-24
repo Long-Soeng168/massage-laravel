@@ -97,7 +97,7 @@
                     <div class="flex gap-4">
                         <div class="flex-1">
                             <x-input-label for="code" :value="__('Code')" />
-                            <x-text-input wire:model='code' id="code" class="block w-full mt-1" type="number"
+                            <x-text-input wire:model='code' id="code" class="block w-full mt-1" type="text"
                                 name="code" placeholder='Example : 000001' :value="old('code')" autocomplete="code" />
                             <x-input-error :messages="$errors->get('code')" class="mt-2" />
                         </div>
