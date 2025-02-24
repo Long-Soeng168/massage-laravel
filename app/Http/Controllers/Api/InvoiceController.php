@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Book;
 use App\Models\Customer;
 use App\Models\CustomerPackage;
 use App\Models\Invoice;
@@ -94,6 +95,18 @@ class InvoiceController extends Controller
                 if (!empty($customerPackage)) {
                     $customerPackage->update([
                         'usable_number' => $customerPackage->usable_number - $item['quantity'],
+                    ]);
+                }
+                // if ($customerPackage->usable_number <= 0) {
+                //     $customerPackage->delete();
+                // }
+            }
+            if ($item['type'] == 'product' && $validated['status'] == 1) {
+                $getProduct = Book::where('id', $item['id'])
+                    ->first();
+                if (!empty($getProduct)) {
+                    $getProduct->update([
+                        'quantity' => $getProduct->quantity - $item['quantity'],
                     ]);
                 }
                 // if ($customerPackage->usable_number <= 0) {
