@@ -93,8 +93,8 @@
                 <div class="flex justify-start flex-1">
                     <x-select-option wire:model.live='orderBy' id="orderBy" name="orderBy" class="orderBy-select">
                         <option value="">Select Order</option>
-                        <option value="totalViewDesc">Total View (Descending 9->0)</option>
-                        <option value="totalViewAsc">Total View (Ascending 0->9)</option>
+                        {{-- <option value="totalViewDesc">Total View (Descending 9->0)</option>
+                        <option value="totalViewAsc">Total View (Ascending 0->9)</option> --}}
                         <option value="totalSaleDesc">Total Sale (Descending 9->0)</option>
                         <option value="totalSaleAsc">Total Sale (Ascending 0->9)</option>
                         <option value="totalPriceDesc">Price (Descending 9->0)</option>
@@ -306,7 +306,7 @@
                     <th scope="col" class="px-4 py-3">Category</th>
                     <th scope="col" class="px-4 py-3">Brand</th>
                     {{-- <th scope="col" class="px-4 py-3 text-center">Status</th> --}}
-                    <th scope="col" class="px-4 py-3 text-center">Total View</th>
+                    {{-- <th scope="col" class="px-4 py-3 text-center">Total View</th> --}}
                     <th scope="col" class="py-3 text-center">Action</th>
                 </tr>
             </thead>
@@ -406,7 +406,7 @@
                             @endcan
 
                         </td> --}}
-                        <x-table-data class="text-center" value="{{ $item->view_count }}" />
+                        {{-- <x-table-data class="text-center" value="{{ $item->view_count }}" /> --}}
 
                         <td class="px-6 py-4">
                             <div class="flex items-start justify-center gap-3">

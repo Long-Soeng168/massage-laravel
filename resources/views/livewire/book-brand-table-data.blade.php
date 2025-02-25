@@ -108,7 +108,7 @@
                         <div
                             class="flex items-center justify-between p-4 border-b rounded-t lg:p-5 dark:border-gray-600">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                Create Category
+                                Create
                             </h3>
                             <button type="button"
                                 class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white"
@@ -126,17 +126,6 @@
                             <div class="py-4">
                                 <input type="file" wire:model='image'
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[100%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            </div>
-                            <div class="grid grid-cols-2 gap-4 mb-4 ">
-                                <div class="col-span-2">
-                                    <label for="ddc"
-                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DDC
-                                        Code</label>
-                                    <input wire:key="{{ rand() }}" type="text" name="ddc"
-                                        id="ddc" wire:model='newDdc'
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="DDC Code">
-                                </div>
                             </div>
                             <div class="grid grid-cols-2 gap-4 mb-4 ">
                                 <div class="col-span-2">
@@ -165,15 +154,16 @@
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                         Order Index
                                     </label>
-                                    <input wire:key="{{ rand() }}" type="text" name="orderIndex"
+                                    <input wire:key="{{ rand() }}" type="number" name="orderIndex"
                                         id="orderIndex" wire:model='newOrderIndex'
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Name KH">
+                                        placeholder="Order Index">
                                 </div>
                             </div>
                             <div class="text-right">
                                 <button data-modal-target="create_modal" data-modal-toggle="create_modal"
-                                    type="button" wire:click='save' wire:target="save" wire:loading.attr="disabled"
+                                    type="button" wire:click='save' wire:target="save, image"
+                                    wire:loading.attr="disabled"
                                     class="text-white mt-2 inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     <svg class="w-5 h-5 me-1 -ms-1" fill="currentColor" viewBox="0 0 20 20"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -197,7 +187,7 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-4 py-3">No</th>
-                    <th scope="col" class="px-4 py-3">Image</th>
+                    <th scope="col" class="px-4 py-3 text-center">Image</th>
                     <th scope="col" class="px-4 py-3 " wire:click='setSortBy("name")'>
                         <div class="flex items-center cursor-pointer">
 
@@ -213,7 +203,7 @@
                     </th>
                     <th scope="col" class="px-4 py-3">Name KH</th>
                     <th scope="col" class="px-4 py-3 text-center">Order Index</th>
-                    <th scope="col" class="px-4 py-3 text-center">Status</th>
+                    {{-- <th scope="col" class="px-4 py-3 text-center">Status</th> --}}
                     <th scope="col" class="py-3 text-center w-[300px]">Action</th>
                 </tr>
             </thead>
@@ -239,16 +229,32 @@
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[90%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             </td>
                             <td>
-                                <input type="text" wire:model='order_index'
+                                <input type="number" wire:model='order_index'
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[90%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             </td>
                         @else
-                            <th scope="row"
-                                class="flex items-center px-4 py-2 font-medium text-gray-900 dark:text-white">
-                                <a href="{{ asset('assets/images/brands/' . $item->image) }}" class="glightbox">
-                                    <img src="{{ asset('assets/images/brands/' . $item->image) }}" alt="Image"
-                                        class="object-contain h-10 mr-3 aspect-[1/1]">
-                                </a>
+                            <th scope="row">
+                                @if ($item->image)
+                                    <span class="flex items-center justify-center ">
+                                        <a href="{{ asset('assets/images/brands/' . $item->image) ?? 'N/A' }}"
+                                            class="text-center glightbox">
+                                            <img src="{{ asset('assets/images/brands/' . $item->image) ?? 'N/A' }}"
+                                                alt="Image" class="object-contain p-1 max-h-20 aspect-[1/1]">
+                                        </a>
+                                    </span>
+                                @else
+                                    <span class="flex items-center justify-center ">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-image">
+                                            <rect width="18" height="18" x="3" y="3" rx="2"
+                                                ry="2" />
+                                            <circle cx="9" cy="9" r="2" />
+                                            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                                        </svg>
+                                    </span>
+                                @endif
                             </th>
                             <x-table-data value="{{ $item->name }}" />
                             <x-table-data>
@@ -258,7 +264,7 @@
                                 </span>
                             </x-table-data>
                             <x-table-data class="text-center" value="{{ $item->order_index }}" />
-                            <td class="text-center">
+                            {{-- <td class="text-center">
                                 <button data-modal-target="popup-modal-user-{{ $item->id }}"
                                     data-modal-toggle="popup-modal-user-{{ $item->id }}">
                                     @if ($item->status == 1)
@@ -313,7 +319,7 @@
                                     </div>
                                 </div>
 
-                            </td>
+                            </td> --}}
                         @endif
 
                         <td class="px-6 py-4 ">
@@ -324,7 +330,8 @@
                                         type="button">
                                         Cancel
                                     </button>
-                                    <button wire:confirm='Are you sure? You want to update {{ $item->name }}'
+                                    <button wire:target="save, image" wire:loading.attr="disabled"
+                                        wire:confirm='Are you sure? You want to update {{ $item->name }}'
                                         wire:click='update({{ $item->id }})'
                                         class = 'flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800'>
                                         Update

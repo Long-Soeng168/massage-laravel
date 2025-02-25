@@ -107,13 +107,85 @@ class BookCreate extends Component
         // session()->flash('success', 'Successfully Submit!');
     }
 
+    public $brand_image = null;
+    public $brand_name = null;
+    public $brand_name_kh = null;
+    public $brand_order_index = null;
+
+    public function save_brand()
+    {
+        try {
+            $validated = $this->validate([
+                'brand_name' => 'required|string|max:255|unique:brands,name',
+                'brand_name_kh' => 'required|string|max:255',
+                'brand_order_index' => 'nullable',
+            ]);
+
+            if (!empty($this->brand_image)) {
+                // $filename = time() . '_' . $this->brand_image->getClientOriginalName();
+                $filename = time() . str()->random(10) . '.' . $this->brand_image->getClientOriginalExtension();
+                $this->brand_image->storeAs('brands', $filename, 'realPublicImagePath');
+                $validated['image'] = $filename;
+            }
+
+            BookBrand::create([
+                'name' => $this->brand_name,
+                'name_kh' => $this->brand_name_kh,
+                'order_index' => $this->brand_order_index,
+                'image' => $filename ?? '',
+            ]);
+
+            session()->flash('success', 'Add New Brand successfully!');
+
+            $this->reset(['brand_name', 'brand_name_kh', 'brand_order_index']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            session()->flash('error', $e->validator->errors()->all());
+        }
+    }
+    public $category_image = null;
+    public $category_name = null;
+    public $category_name_kh = null;
+    public $category_order_index = null;
+
+    public function save_category()
+    {
+        try {
+            $validated = $this->validate([
+                'category_name' => 'required|string|max:255|unique:categories,name',
+                'category_name_kh' => 'required|string|max:255',
+                'category_order_index' => 'nullable',
+            ]);
+
+            if (!empty($this->category_image)) {
+                // $filename = time() . '_' . $this->category_image->getClientOriginalName();
+                $filename = time() . str()->random(10) . '.' . $this->category_image->getClientOriginalExtension();
+                $this->category_image->storeAs('categories', $filename, 'realPublicImagePath');
+                $validated['image'] = $filename;
+            }
+
+            BookCategory::create([
+                'name' => $this->category_name,
+                'name_kh' => $this->category_name_kh,
+                'order_index' => $this->category_order_index,
+                'image' => $filename ?? '',
+            ]);
+
+            session()->flash('success', 'Add New Category successfully!');
+
+            $this->reset(['category_name', 'category_name_kh', 'category_order_index']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            session()->flash('error', $e->validator->errors()->all());
+        }
+    }
+
+
     public function render()
     {
         // dd($allKeywords);
         // dump($this->selectedallKeywords);
-        $categories = BookCategory::orderBy('name')->get();
-        $subCategories = BookSubCategory::where('category_id', $this->category_id)->orderBy('name')->get();
-        $brands = BookBrand::orderBy('name')->get();
+        $categories = BookCategory::orderBy('id', 'desc')->get();
+        $subCategories = BookSubCategory::where('category_id', $this->category_id)->orderBy('id', 'desc')->get();
+        $brands = BookBrand::orderBy('id', 'desc')->get();
 
         return view('livewire.book-create', [
             'categories' => $categories,

@@ -118,7 +118,7 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-4 py-3">No</th>
-                    <th scope="col" class="px-4 py-3">Image</th>
+                    <th scope="col" class="px-4 py-3 text-center">Image</th>
                     <th scope="col" class="px-4 py-3 " wire:click='setSortBy("title")'>
                         <div class="flex items-center cursor-pointer">
 
@@ -142,12 +142,27 @@
                         <td class="w-4 px-4 py-3">
                             {{ $loop->iteration }}
                         </td>
-                        <th scope="row"
-                            class="flex items-center px-4 py-2 font-medium text-gray-900 dark:text-white">
-                            <a href="{{ asset('assets/images/isbn/' . $item->image) }}" class="glightbox">
-                                <img src="{{ asset('assets/images/isbn/' . $item->image) }}" alt="Image"
-                                    class="object-contain h-10 mr-3 aspect-[16/9]">
-                            </a>
+                        <th scope="row">
+                            @if ($item->image)
+                                <span class="flex items-center justify-center ">
+                                    <a href="{{ asset('assets/images/isbn/' . $item->image) ?? 'N/A' }}"
+                                        class="text-center glightbox">
+                                        <img src="{{ asset('assets/images/isbn/thumb/' . $item->image) ?? 'N/A' }}"
+                                            alt="Image" class="object-contain p-1 max-h-20 aspect-[1/1]">
+                                    </a>
+                                </span>
+                            @else
+                                <span class="flex items-center justify-center ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image">
+                                        <rect width="18" height="18" x="3" y="3" rx="2"
+                                            ry="2" />
+                                        <circle cx="9" cy="9" r="2" />
+                                        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                                    </svg>
+                                </span>
+                            @endif
                         </th>
                         <x-table-data value="{{ $item->title }}" />
                         <x-table-data value="{{ $item->quantity }}"
