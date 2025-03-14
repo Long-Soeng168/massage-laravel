@@ -143,7 +143,7 @@ class SaleTableData extends Component
                                 ? ($invoice->discount . '%')
                                 : ('$' . number_format($invoice->discount, 2)),
                             'Total' => number_format($invoice->total, 2) ?? 'N/A', // Format total
-                            'Payment Methode' => $invoice->payment->name ?? 'N/A', // Related payment type
+                            'Payment Methode' => $invoice->paymentTypeId == 0 ? 'Credit' : ($invoice->payment ? $invoice->payment->name : 'N/A'), // Related payment type
                             'Created By' => $invoice->user->name ?? 'N/A', // User who created the invoice
                             'Created At' => $invoice->created_at->format('Y-m-d H:i:s'), // Format date
                         ];

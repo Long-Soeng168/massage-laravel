@@ -138,7 +138,7 @@
             </div>
 
         </div>
-        <div
+        {{-- <div
             class="flex flex-col items-stretch justify-end flex-shrink-0 w-full mb-2 space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
 
             <div class="flex items-center w-full space-x-3 md:w-auto">
@@ -156,7 +156,7 @@
                     Export
                 </button>
             </div>
-        </div>
+        </div> --}}
         <div>
             <div class="overflow-x-auto">
                 <table class="w-full px-2 text-sm text-left text-gray-500 dark:text-gray-400">

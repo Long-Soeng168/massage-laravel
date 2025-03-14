@@ -77,11 +77,19 @@ class CustomerInvoice extends Component
                 return Invoice::where('customerId', $this->purchaseId)
                     ->with('items')
                     ->get()
-                    ->map(function ($item, $index) {
+                    ->map(function ($invoice, $index) {
                         return [
                             'No' => $index + 1,
-                            'items' => $item->package?->name,
-                            'Remain' => $item->usable_number,
+                            'ID' => $invoice->id,
+                            'Customer' => $invoice->customer->name ?? 'N/A', // Related customer name
+                            'Subtotal' => number_format($invoice->subtotal, 2) ?? 'N/A', // Format subtotal
+                            'Discount' => $invoice->discountType === 'percentage'
+                                ? ($invoice->discount . '%')
+                                : ('$' . number_format($invoice->discount, 2)),
+                            'Total' => number_format($invoice->total, 2) ?? 'N/A', // Format total
+                            'Payment Methode' => $invoice->paymentTypeId == 0 ? 'Credit' : ($invoice->payment ? $invoice->payment->name : 'N/A'), // Related payment type
+                            'Created By' => $invoice->user->name ?? 'N/A', // User who created the invoice
+                            'Created At' => $invoice->created_at->format('Y-m-d H:i:s'), // Format date
                         ];
                     });
             }
@@ -109,8 +117,14 @@ class CustomerInvoice extends Component
                     [],
                     [
                         'No',
-                        'items',
-                        'Remain',
+                        'Invoice ID',
+                        'Customer',
+                        'Subtotal',
+                        'Discount',
+                        'Total',
+                        'Payment Methode',
+                        'Sale By',
+                        'Created At',
                     ]
                 ];
             }

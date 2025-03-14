@@ -149,7 +149,8 @@
                             value="{{ $item->created_at?->format('d-M-Y  H:i A') ?? 'N/A' }}" />
 
                         <x-table-data class="text-center" value="{{ $item->customer?->name ?? 'N/A' }}" />
-                        <x-table-data class="text-center" value="{{ $item->payment?->name ?? 'N/A' }}" />
+                        <x-table-data class="text-center"
+                            value="{{ $item->paymentTypeId == 0 ? 'Credit' : ($item->payment ? $item->payment->name : 'N/A') }}" />
 
                         <x-table-data value="{{ $item->subtotal ?? 'N/A' }}" />
                         <x-table-data value="{{ $item->total ?? 'N/A' }}" class="text-red-400" />

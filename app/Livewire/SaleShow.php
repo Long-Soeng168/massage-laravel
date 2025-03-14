@@ -80,7 +80,6 @@ class SaleShow extends Component
                         return [
                             'No' => $index + 1,
                             'Title' => $item->product?->title,
-                            'ISBN' => $item->product?->isbn,
                             'Price' => $item->price,
                             'Discount' => $item->discount,
                             'Quantity' => $item->quantity,
@@ -122,7 +121,6 @@ class SaleShow extends Component
                     [
                         'No',
                         'Title',
-                        'ISBN',
                         'Unit Price',
                         'Discount (%)',
                         'Quantity',
