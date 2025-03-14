@@ -45,6 +45,10 @@ class CustomerController extends Controller
     {
         return view('admin.customers.show', compact('id'));
     }
+    public function invoice($id)
+    {
+        return view('admin.customers.invoice', compact('id'));
+    }
 
     /**
      * Show the form for editing the specified resource.

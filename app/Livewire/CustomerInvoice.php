@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\CustomerPackage;
+use App\Models\Invoice;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
@@ -11,7 +11,7 @@ use App\Models\Customer;
 use Image;
 use Maatwebsite\Excel\Facades\Excel;
 
-class CustomerShow extends Component
+class CustomerInvoice extends Component
 {
     use WithFileUploads;
     use WithPagination;
@@ -22,16 +22,6 @@ class CustomerShow extends Component
     {
         $this->purchase = Customer::findOrFail($id);
     }
-
-
-    public function deletePackage($id)
-    {
-        $foundPackage = CustomerPackage::findOrFail($id);
-        $foundPackage->delete();
-        return redirect()->to('admin/people/customers/' . $this->purchase->id);
-    }
-
-
 
     public function updateStatus($id, $status)
     {
@@ -44,7 +34,7 @@ class CustomerShow extends Component
             'updated_user_id' => request()->user()->id,
         ]);
 
-        $getedProducts = CustomerPackage::where('customer_id', $id)->get();
+        $getedProducts = Invoice::where('customerId', $id)->get();
 
         if ($status == 1) {
             foreach ($getedProducts as $product) {
@@ -84,13 +74,13 @@ class CustomerShow extends Component
             public function collection()
             {
                 // Fetch purchases with related data
-                return CustomerPackage::where('customer_id', $this->purchaseId)
-                    ->with('package')
+                return Invoice::where('customerId', $this->purchaseId)
+                    ->with('items')
                     ->get()
                     ->map(function ($item, $index) {
                         return [
                             'No' => $index + 1,
-                            'Package' => $item->package?->name,
+                            'items' => $item->package?->name,
                             'Remain' => $item->usable_number,
                         ];
                     });
@@ -119,7 +109,7 @@ class CustomerShow extends Component
                     [],
                     [
                         'No',
-                        'Package',
+                        'items',
                         'Remain',
                     ]
                 ];
@@ -130,11 +120,11 @@ class CustomerShow extends Component
 
     public function render()
     {
-        $items = CustomerPackage::where('customer_id', $this->purchase->id)
-            ->with('package')
+        $items = Invoice::where('customerId', $this->purchase->id)
+            ->with('items')
             ->paginate(10);
 
-        return view('livewire.customer-show', [
+        return view('livewire.customer-invoice', [
             'items' => $items,
             'order' => $this->purchase,
         ]);

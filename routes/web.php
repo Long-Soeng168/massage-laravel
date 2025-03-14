@@ -65,7 +65,7 @@ Route::group([
     'middleware' => 'check_user_status',
     'prefix' => 'admin',
     'as' => 'admin.'
-], function() {
+], function () {
 
 
 
@@ -81,19 +81,19 @@ Route::group([
     Route::resource('roles', AdminRoleController::class);
     Route::get('roles/{id}/give-permissions', [AdminRoleController::class, 'givePermissionsToRole']);
     Route::put('roles/{id}/give-permissions', [AdminRoleController::class, 'updatePermissionsToRole']);
-    Route::resource('users', AdminUserController::class );
+    Route::resource('users', AdminUserController::class);
     Route::put('users/{user}/update_password', [AdminUserController::class, 'updateUserPassword']);
 
-    Route::resource('settings/menus', MenuController::class );
-    Route::resource('settings/slides', SlideController::class );
-    Route::resource('settings/footer', FooterController::class );
-    Route::get('settings/contact', [MenuController::class, 'contact'] );
-    Route::get('settings/about', [MenuController::class, 'about'] );
-    Route::resource('settings/features', FeatureController::class );
-    Route::resource('settings/links', LinkController::class );
-    Route::resource('settings/payments', PaymentController::class );
+    Route::resource('settings/menus', MenuController::class);
+    Route::resource('settings/slides', SlideController::class);
+    Route::resource('settings/footer', FooterController::class);
+    Route::get('settings/contact', [MenuController::class, 'contact']);
+    Route::get('settings/about', [MenuController::class, 'about']);
+    Route::resource('settings/features', FeatureController::class);
+    Route::resource('settings/links', LinkController::class);
+    Route::resource('settings/payments', PaymentController::class);
     // Route::resource('settings/databases', DatabaseController::class );
-    Route::resource('settings/website_infos', WebsiteInfoController::class );
+    Route::resource('settings/website_infos', WebsiteInfoController::class);
 });
 /*
 |--------------------------------------------------------------------------
@@ -106,7 +106,7 @@ Route::group([
 | Start Client Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/switch-language/{locale}', function($locale){
+Route::get('/switch-language/{locale}', function ($locale) {
     session(['locale' => $locale]);
     return redirect()->back();
 })->name('switch-language');
@@ -127,7 +127,7 @@ Route::group([
     Route::resource('admin/purchases', PurchaseController::class);
     Route::resource('admin/sales', SaleController::class);
     Route::resource('admin/adjustments', AdjustmentController::class);
-     Route::resource('admin/orders', OrderController::class );
+    Route::resource('admin/orders', OrderController::class);
     Route::get('admin/categories', [BookController::class, 'categories']);
     Route::get('admin/brands', [BookController::class, 'brands']);
     Route::get('admin/sub_categories', [BookController::class, 'sub_categories']);
@@ -136,6 +136,7 @@ Route::group([
     Route::resource('admin/people/publishers', PublisherController::class);
     Route::resource('admin/people/service_person', ServicePersonController::class);
     Route::resource('admin/people/customers', CustomerController::class);
+    Route::get('admin/people/customers/{id}/invoice', [CustomerController::class, 'invoice']);
     Route::get('admin/people/adjust_credits', [CustomerController::class, 'adjust_credits']);
     Route::resource('admin/people/suppliers', SupplierController::class);
 });
@@ -151,7 +152,6 @@ Route::group([
     Route::get('/admin/dashboard', function () {
         return view('admin.dashboard.index');
     });
-
 });
 
 
@@ -180,7 +180,7 @@ Route::group([
 */
 Route::group([
     'middleware' => 'role:super-admin|admin'
-], function() {
+], function () {
     Route::resource('permissions', PermissionController::class);
     Route::get('permissions/{id}/delete', [PermissionController::class, 'destroy']);
 
@@ -194,15 +194,15 @@ Route::group([
     Route::get('users/{user}/delete', [UserController::class, 'destroy']);
 });
 
-Route::get('ckeditor4-demo', function() {
+Route::get('ckeditor4-demo', function () {
     return view('ckeditor-demo.ckeditor4-demo');
 })->name('ckeditor4');
 
-Route::get('ckeditor5-demo', function() {
+Route::get('ckeditor5-demo', function () {
     return view('ckeditor-demo.ckeditor5-demo');
 })->name('ckeditor5');
 
-Route::get('slide-infinite-loop', function() {
+Route::get('slide-infinite-loop', function () {
     return view('slide-show.slide-infinite-loop');
 })->name('slide-infinite-loop');
 
