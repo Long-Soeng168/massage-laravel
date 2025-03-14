@@ -32,7 +32,7 @@ class PurchaseTableData extends Component
     public $end_date = null;
     public function mount()
     {
-        $this->end_date = Carbon::today()->toDateString();
+        $this->end_date = Carbon::tomorrow()->toDateString();
     }
 
     public function setFilter($value)
@@ -173,7 +173,7 @@ class PurchaseTableData extends Component
                 $query->where('purchase_date', '>=', $this->start_date);
             })
             ->when($this->end_date, function ($query) {
-            $query->where('purchase_date', '<=', $this->end_date);
+                $query->where('purchase_date', '<=', $this->end_date);
             })
             ->orderBy('id', 'desc')
             ->paginate($this->perPage);

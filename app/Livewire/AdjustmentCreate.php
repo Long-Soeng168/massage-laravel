@@ -33,7 +33,7 @@ class AdjustmentCreate extends Component
     public $adjustment_date = null;
     public function mount()
     {
-        $this->adjustment_date = Carbon::today()->toDateString();
+        $this->adjustment_date = Carbon::tomorrow()->toDateString();
     }
 
     public function handleSelectProduct($id)

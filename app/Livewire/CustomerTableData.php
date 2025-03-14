@@ -6,6 +6,7 @@ use App\Models\Customer;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerTableData extends Component
 {
@@ -179,6 +180,43 @@ class CustomerTableData extends Component
         $this->dispatch('livewire:updated');
     }
 
+    public function export()
+    {
+
+        return Excel::download(new class() implements \Maatwebsite\Excel\Concerns\FromCollection, \Maatwebsite\Excel\Concerns\WithHeadings {
+
+            public function collection()
+            {
+                return Customer::with('updated_by')->get()
+                    ->map(function ($customer) {
+                        return [
+                            'ID' => $customer->id,
+                            'Name' => $customer->name ?? 'N/A', // Related supplier name
+                            'Gender' => $customer->gender ?? 'N/A',
+                            'Phone' => $customer->phone ?? 'N/A',
+                            'Address' => $customer->address ?? 'N/A',
+                            'Credit' => $customer->credit ?? '0',
+                            'Updated By' => $customer->updated_by->name ?? 'N/A',
+                        ];
+                    });
+            }
+
+            public function headings(): array
+            {
+                // Define the column headings
+                return [
+                    'ID',
+                    'Name',
+                    'Gender',
+                    'Phone',
+                    'Address',
+                    'Credit ($)',
+                    'Updated By',
+                ];
+            }
+        }, 'purchases.xlsx');
+    }
+
     public function render()
     {
 
@@ -188,8 +226,8 @@ class CustomerTableData extends Component
             ->orderBy($this->sortBy, $this->sortDir)
             ->paginate($this->perPage);
 
-        $customers = Customer::all();
-
+        $customers = Customer::with('invoices')->get();
+        // dd($customers);
         return view('livewire.customer-table-data', [
             'items' => $items,
             'customers' => $customers,

@@ -38,7 +38,7 @@ class PurchaseCreate extends Component
     public $purchase_date = null;
     public function mount()
     {
-        $this->purchase_date = Carbon::today()->toDateString();
+        $this->purchase_date = Carbon::tomorrow()->toDateString();
     }
 
     public function handleSelectProduct($id)

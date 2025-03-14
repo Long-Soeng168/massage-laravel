@@ -34,72 +34,47 @@
             <div class="px-4 mb-4 text-gray-600 dark:text-gray-50">
                 <div class="flex flex-col items-start justify-start ">
                     <div class="flex items-start justify-start gap-2 ">
-                        <strong>{{ __('#Invoice : ') }}</strong>
+                        <strong>{{ __('Name : ') }}</strong>
                         <p class="text-start ">
-                            #{{ $order->id ?? 'N/A' }}
+                            {{ $order->name ?? 'N/A' }}
                         </p>
                     </div>
                     <div class="flex items-start justify-start gap-2 ">
-                        <strong>{{ __('Sub-Total : ') }}</strong>
+                        <strong>{{ __('Credit : ') }}</strong>
                         <p class="text-red-500 text-start">
-                            $ {{ $order->subtotal ?? 'N/A' }}
+                            $ {{ $order->credit ?? '0' }}
                         </p>
                     </div>
                     <div class="flex items-start justify-start gap-2 ">
-                        <strong>{{ __('Discount : ') }}</strong>
-                        <p class="text-red-500 text-start">
-                            {{ $order->discount ?? 'N/A' }} {{ $order->discountType == 'percentage' ? ' %' : ' $' }}
-                        </p>
-                    </div>
-                    <div class="flex items-start justify-start gap-2 ">
-                        <strong>{{ __('Total : ') }}</strong>
-                        <p class="text-red-500 text-start">
-                            $ {{ $order->total ?? 'N/A' }}
-                        </p>
-                    </div>
-                    <div class="flex items-start justify-start gap-2 ">
-                        <strong>{{ __('Customer : ') }}</strong>
+                        <strong>{{ __('Phone : ') }}</strong>
                         <p class="text-start ">
-                            {{ $order->customer?->name ?? 'N/A' }}
+                            {{ $order->phone ?? 'N/A' }}
                         </p>
                     </div>
                     <div class="flex items-start justify-start gap-2 ">
-                        <strong>{{ __('Pay by : ') }}</strong>
+                        <strong>{{ __('Address : ') }}</strong>
                         <p class="text-start ">
-                            @if ($order->paymentTypeId == 0)
-                                Credit
-                            @else
-                                {{ $order->payment?->name ?? 'N/A' }}
-                            @endif
+                            {{ $order->address ?? 'N/A' }}
                         </p>
                     </div>
-                    <div class="flex items-start justify-start gap-2 ">
-                        <strong>{{ __('Purchase Date : ') }}</strong>
+                    <div class="flex items-start justify-start gap-2 capitalize">
+                        <strong>{{ __('Gender : ') }}</strong>
                         <p class="text-start ">
-                            {{ $order->created_at?->format('d_M_Y - H:i') ?? 'N/A' }}
+                            {{ $order->gender ?? 'N/A' }}
                         </p>
                     </div>
-                    <div class="flex items-start justify-start gap-2 ">
-                        <strong>{{ __('Sale By : ') }}</strong>
+                    {{-- <div class="flex items-start justify-start gap-2 ">
+                        <strong>{{ __('Created By : ') }}</strong>
                         <p class="text-start ">
-                            {{ $order->user?->name ?? 'N/A' }}
+                            {{ $order->created_by?->name ?? 'N/A' }}
                         </p>
-                    </div>
+                    </div> --}}
                     <div class="flex items-start justify-start gap-2 ">
                         <strong>{{ __('Updated By : ') }}</strong>
                         <p class="text-start ">
                             {{ $order->updated_by?->name ?? 'N/A' }}
                         </p>
                     </div>
-                    @if ($order->note)
-                        <div class="flex items-start justify-start gap-2 ">
-                            <strong>{{ __('Note : ') }}</strong>
-                            <p class="text-start ">
-                                {{ $order->note ?? 'N/A' }}
-                            </p>
-                        </div>
-                    @endif
-
 
                     {{-- <div wire:key='{{ $update_status }}' class="flex items-center gap-2">
                         <strong>{{ __('Status : ') }}</strong>
@@ -107,7 +82,7 @@
                         <button :key={{ rand() }} id="dropdownDefaultButton"
                             data-dropdown-toggle="dropdown-{{ $order->id }}"
                             class="{{ $order->status == 1 ? 'text-green-500' : ($order->status == 0 ? 'text-yellow-700' : 'text-red-500') }} py-2.5 px-5 me-2 text-sm flex gap-1 items-center font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                            {{ $order->status == 1 ? 'Paid' : 'Hold' }}
+                            {{ $order->status == 1 ? 'Recieved' : 'Not-Recieved' }}
                             <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -121,13 +96,13 @@
                                 <li>
                                     <button wire:click="updateStatus({{ $order->id }}, 1)"
                                         class="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        Paid
+                                        Recieved
                                     </button>
                                 </li>
                                 <li>
                                     <button wire:click="updateStatus({{ $order->id }}, 0)"
                                         class="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        Hold
+                                        Not-Recieved
                                     </button>
                                 </li>
                             </ul>
@@ -138,6 +113,7 @@
             </div>
 
         </div>
+        {{-- Start ISBN --}}
         <div
             class="flex flex-col items-stretch justify-end flex-shrink-0 w-full mb-2 space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
 
@@ -163,13 +139,9 @@
                     <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="px-4 py-3">No</th>
-                            <th scope="col" class="px-4 py-3">Image</th>
-                            <th scope="col" class="px-4 py-3">Title</th>
-                            <th scope="col" class="px-4 py-3">Item Type</th>
-                            <th scope="col" class="px-4 py-3">Price</th>
-                            <th scope="col" class="px-4 py-3 text-center">Quantity</th>
-                            <th scope="col" class="px-4 py-3 text-center">SubTotal</th>
-                            {{-- <th scope="col" class="py-3 text-center">Action</th> --}}
+                            <th scope="col" class="px-4 py-3">Package</th>
+                            <th scope="col" class="px-4 py-3">Remain</th>
+                            <th scope="col" class="py-3 text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -179,90 +151,11 @@
                                 <td class="w-4 px-4 py-3">
                                     {{ $loop->iteration }}
                                 </td>
-                                <th scope="row"
-                                    class="flex items-center px-4 py-2 font-medium text-gray-900 dark:text-white">
-                                    @switch($item->type)
-                                        @case('service')
-                                            @if ($item->service?->image)
-                                                <img src="{{ asset('assets/images/isbn/thumb/' . $item->service?->image) }}"
-                                                    alt="Image" class="object-contain h-10 mr-3 aspect-[16/9]">
-                                            @else
-                                                <span class="flex items-center justify-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="lucide lucide-image">
-                                                        <rect width="18" height="18" x="3" y="3" rx="2"
-                                                            ry="2" />
-                                                        <circle cx="9" cy="9" r="2" />
-                                                        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-                                                    </svg>
-                                                </span>
-                                            @endif
-                                        @break
-
-                                        @case('package')
-                                            @if ($item->package?->image)
-                                                <img src="{{ asset('assets/images/isbn/thumb/' . $item->package?->image) }}"
-                                                    alt="Image" class="object-contain h-10 mr-3 aspect-[16/9]">
-                                            @else
-                                                <span class="flex items-center justify-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="lucide lucide-image">
-                                                        <rect width="18" height="18" x="3" y="3" rx="2"
-                                                            ry="2" />
-                                                        <circle cx="9" cy="9" r="2" />
-                                                        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-                                                    </svg>
-                                                </span>
-                                            @endif
-                                        @break
-
-                                        @default
-                                            @if ($item->product?->image)
-                                                <img src="{{ asset('assets/images/isbn/thumb/' . $item->product?->image) }}"
-                                                    alt="Image" class="object-contain h-10 mr-3 aspect-[16/9]">
-                                            @else
-                                                <span class="flex items-center justify-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="lucide lucide-image">
-                                                        <rect width="18" height="18" x="3" y="3" rx="2"
-                                                            ry="2" />
-                                                        <circle cx="9" cy="9" r="2" />
-                                                        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-                                                    </svg>
-                                                </span>
-                                            @endif
-                                    @endswitch
-
-                                </th>
-                                <x-table-data value="{{ $item->title }}" />
-                                <x-table-data>
-                                    <span class="p-2 capitalize bg-blue-100">{{ $item->type }}</span>
-                                </x-table-data>
-                                <x-table-data>
-                                    @if ($item->discount > 0)
-                                        <span class="line-through">{{ $item->price }}</span>
-                                        <span class="text-red-400">$
-                                            {{ $item->price - ($item->discount / 100) * $item->price }}</span>
-                                    @else
-                                        <span class="text-red-400">$ {{ $item->price }}</span>
-                                    @endif
-                                </x-table-data>
-                                <x-table-data class="text-center" value="{{ $item->quantity }}" />
-                                <x-table-data class="text-center">
-                                    <span>
-                                        $
-                                        {{ ($item->price - ($item->discount / 100) * $item->price) * $item->quantity }}
-                                    </span>
-                                </x-table-data>
+                                <x-table-data value="{{ $item->package?->name }}" />
+                                <x-table-data class="text-start" value="{{ $item->usable_number }}" />
 
 
-                                {{-- <td class="px-6 py-4">
+                                <td class="px-6 py-4">
                                     <div class="flex items-start justify-center gap-3">
 
                                         <div class="pb-1" x-data="{ tooltip: false }">
@@ -279,8 +172,7 @@
                                             </a>
 
                                             <!-- View tooltip -->
-                                            <div x-show="tooltip"
-                                                x-transition:enter="transition ease-out duration-200"
+                                            <div x-show="tooltip" x-transition:enter="transition ease-out duration-200"
                                                 class="absolute z-10 inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm dark:bg-gray-700"
                                                 style="display: none;">
                                                 View
@@ -288,26 +180,26 @@
                                         </div>
 
                                     </div>
-                                </td> --}}
+                                </td>
                             </tr>
-                            @empty
-                                <tr>
-                                    <td class="px-4 py-4">No Data...</td>
-                                </tr>
-                            @endforelse
+                        @empty
+                            <tr>
+                                <td class="px-4 py-4">No Data...</td>
+                            </tr>
+                        @endforelse
 
 
-                        </tbody>
-                    </table>
+                    </tbody>
+                </table>
 
-                    <div class="p-4">
+                <div class="p-4">
 
-                        <div>{{ $items->links() }}</div>
-                    </div>
+                    <div>{{ $items->links() }}</div>
                 </div>
             </div>
         </div>
-
-
-
     </div>
+
+
+
+</div>

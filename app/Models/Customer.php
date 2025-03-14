@@ -19,6 +19,10 @@ class Customer extends Model
     {
         return $this->belongsTo(User::class, 'updated_user_id', 'id');
     }
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'customerId', 'id');
+    }
 
     public function packages()
     {

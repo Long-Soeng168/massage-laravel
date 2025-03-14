@@ -90,6 +90,22 @@
                     class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 text-center cursor-pointer">
                     Adjust Credit
                 </a>
+                <div class="flex items-center w-full space-x-3 md:w-auto">
+                    <button id="filterDropdownButton" wire:click="export"
+                        class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                        type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="lucide lucide-file-up">
+                            <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+                            <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                            <path d="M12 12v6" />
+                            <path d="m15 15-3-3-3 3" />
+                        </svg>
+                        Export
+                    </button>
+
+                </div>
                 <x-primary-button data-modal-target="Publisher_modal" data-modal-toggle="Publisher_modal">
                     <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
                         aria-hidden="true">
@@ -218,6 +234,7 @@
                     <th scope="col" class="px-4 py-3">Phone</th>
                     <th scope="col" class="px-4 py-3">Address</th>
                     <th scope="col" class="px-4 py-3 whitespace-nowrap">Credit ($)</th>
+                    <th scope="col" class="px-4 py-3 whitespace-nowrap">Total Invoices</th>
                     <th scope="col" class="px-4 py-3 whitespace-nowrap">Last Update By</th>
                     <th scope="col" class="py-3 text-center w-[300px]">Action</th>
                 </tr>
@@ -269,8 +286,10 @@
                                 value="{{ !empty($item->phone) ? $item->phone : 'N/A' }}" />
                             <x-table-data class="capitalize"
                                 value="{{ !empty($item->address) ? $item->address : 'N/A' }}" />
-                            <x-table-data class="capitalize"
-                                value="{{ !empty($item->credit) ? $item->credit : 'N/A' }}" />
+                            <x-table-data class="text-red-500 capitalize whitespace-nowrap"
+                                value="{{ !empty($item->credit) ? '$ ' . $item->credit : 'N/A' }}" />
+                            <x-table-data class="text-gray-600 capitalize whitespace-nowrap"
+                                value="{{ !empty($item->invoices) ? count($item->invoices) : 'N/A' }}" />
                             <x-table-data class="capitalize"
                                 value="{{ !empty($item->updated_by) ? $item->updated_by->name : 'N/A' }}" />
                         @endif
@@ -290,6 +309,36 @@
                                         Update
                                     </button>
                                 @else
+                                    @can('update people')
+                                        <div class="pb-1" x-data="{ tooltip: false }">
+                                            <!-- Modal toggle -->
+                                            <a href="{{ url('/admin/people/customers/' . $item->id) }}"
+                                                @mouseenter="tooltip = true" @mouseleave="tooltip = false"
+                                                wire:click='setEdit({{ $item->id }})'>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="lucide lucide-box">
+                                                    <path
+                                                        d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                                                    <path d="m3.3 7 8.7 5 8.7-5" />
+                                                    <path d="M12 22V12" />
+                                                </svg>
+                                            </a>
+                                            <!-- View tooltip -->
+                                            <div x-show="tooltip" x-transition:enter="transition ease-out duration-200"
+                                                x-transition:enter-start="opacity-0 transform scale-90"
+                                                x-transition:enter-end="opacity-100 transform scale-100"
+                                                x-transition:leave="transition ease-in duration-75"
+                                                x-transition:leave-start="opacity-100 transform scale-100"
+                                                x-transition:leave-end="opacity-0 transform scale-90"
+                                                class="absolute z-[9999] inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm dark:bg-gray-700 whitespace-nowrap"
+                                                style="display: none;">
+                                                Packages
+                                            </div>
+
+                                        </div>
+                                    @endcan
                                     @can('delete people')
                                         <div class="pb-1" x-data="{ tooltip: false }">
                                             <!-- Modal toggle -->

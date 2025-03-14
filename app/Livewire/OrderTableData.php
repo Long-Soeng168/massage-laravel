@@ -73,7 +73,7 @@ class OrderTableData extends Component
 
     public function mount()
     {
-        $this->end_date = Carbon::today()->toDateString();
+        $this->end_date = Carbon::tomorrow()->toDateString();
     }
 
     public function export()

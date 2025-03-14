@@ -31,7 +31,7 @@ class SaleTableData extends Component
     public $end_date = null;
     public function mount()
     {
-        $this->end_date = Carbon::today()->toDateString();
+        $this->end_date = Carbon::tomorrow()->toDateString();
     }
 
     public function setFilter($value)
