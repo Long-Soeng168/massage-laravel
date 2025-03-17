@@ -16,6 +16,25 @@ class InvoiceItem extends Model
     {
         return $this->belongsTo(Invoice::class);
     }
+    public function customer()
+    {
+        return $this->hasOneThrough(Customer::class, Invoice::class, 'id', 'id', 'invoice_id', 'customerId');
+    }
+    public function payment()
+    {
+        return $this->hasOneThrough(Payment::class, Invoice::class, 'id', 'id', 'invoice_id', 'paymentTypeId');
+    }
+
+    public function user()
+    {
+        return $this->hasOneThrough(User::class, Invoice::class, 'id', 'id', 'invoice_id', 'userId');
+    }
+
+    public function updated_by()
+    {
+        return $this->hasOneThrough(User::class, Invoice::class, 'id', 'id', 'invoice_id', 'updated_user_id');
+    }
+
     public function product()
     {
         return $this->belongsTo(Book::class, 'product_id', 'id');

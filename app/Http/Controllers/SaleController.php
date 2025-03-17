@@ -10,28 +10,32 @@ use Illuminate\Support\Facades\Auth;
 
 class SaleController extends Controller
 {
-     // Display all ISBN Requests
-     public function index()
-     {
-         return view('sales.index');
-     }
-     // Show the form for creating a new ISBN request
-     public function create()
-     {
-         return view('sales.create');
-     }
+    // Display all ISBN Requests
+    public function index()
+    {
+        return view('sales.index');
+    }
+    public function saleItems()
+    {
+        return view('sales.items');
+    }
+    // Show the form for creating a new ISBN request
+    public function create()
+    {
+        return view('sales.create');
+    }
 
-     public function show($id)
-     {
-         return view('sales.show', compact('id'));
-     }
+    public function show($id)
+    {
+        return view('sales.show', compact('id'));
+    }
 
-     public function edit($id)
-     {
+    public function edit($id)
+    {
         return view('sales.edit', compact('id'));
-     }
+    }
 
-     public function categories()
+    public function categories()
     {
         return view('admin.sales.category');
     }
@@ -40,6 +44,4 @@ class SaleController extends Controller
     {
         return view('admin.sales.sub_category');
     }
-
-
 }

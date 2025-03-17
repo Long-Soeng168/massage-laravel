@@ -126,6 +126,7 @@ Route::group([
     Route::get('admin/stocks', [PurchaseController::class, 'stocks']);
     Route::resource('admin/purchases', PurchaseController::class);
     Route::resource('admin/sales', SaleController::class);
+    Route::get('admin/sales_items', [SaleController::class, 'saleItems']);
     Route::resource('admin/adjustments', AdjustmentController::class);
     Route::resource('admin/orders', OrderController::class);
     Route::get('admin/categories', [BookController::class, 'categories']);
