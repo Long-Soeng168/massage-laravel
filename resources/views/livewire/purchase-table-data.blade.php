@@ -143,7 +143,7 @@
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-4 py-3">No</th>
+                    <th scope="col" class="px-4 py-3">Purchase_ID</th>
                     <th scope="col" class="px-4 py-3">Supplier</th>
                     <th scope="col" class="px-4 py-3 text-center">Total Amount</th>
                     <th scope="col" class="px-4 py-3">Purchase Date</th>
@@ -158,7 +158,8 @@
                     <tr wire:key='{{ $item->id }}'
                         class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
                         <td class="w-4 px-4 py-3">
-                            {{ $loop->iteration }}
+                            {{ $item->id }}
+                            {{-- {{ $loop->iteration }} --}}
                         </td>
 
                         <x-table-data value="{{ $item->supplier?->name ?? 'N/A' }}" />

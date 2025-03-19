@@ -15,6 +15,10 @@ class PurchaseController extends Controller
      {
          return view('purchases.index');
      }
+     public function purhcaseItems()
+    {
+        return view('purchases.items');
+    }
      public function stocks()
      {
          return view('purchases.stock');

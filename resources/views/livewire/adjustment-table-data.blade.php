@@ -122,7 +122,7 @@
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-4 py-3">No</th>
+                    <th scope="col" class="px-4 py-3">Adjustment_ID</th>
                     <th scope="col" class="px-4 py-3">Adjustment Date</th>
                     <th scope="col" class="px-4 py-3 text-center">Created By</th>
                     <th scope="col" class="px-4 py-3 text-center">Updated By</th>
@@ -134,7 +134,8 @@
                     <tr wire:key='{{ $item->id }}'
                         class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
                         <td class="w-4 px-4 py-3">
-                            {{ $loop->iteration }}
+                            {{-- {{ $loop->iteration }} --}}
+                            {{ $item->id }}
                         </td>
 
                         <x-table-data value="{{ $item->adjustment_date ?? 'N/A' }}" />

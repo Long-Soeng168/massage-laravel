@@ -125,7 +125,7 @@
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-4 py-3">#Invoice</th>
+                    <th scope="col" class="px-4 py-3">Invoice_ID</th>
                     <th scope="col" class="px-4 py-3 text-center">Date</th>
                     <th scope="col" class="px-4 py-3 text-center">Customer</th>
                     <th scope="col" class="px-4 py-3 text-center">Pay by</th>
@@ -143,7 +143,7 @@
                     <tr wire:key='{{ $item->id }}'
                         class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
                         <td class="w-4 px-4 py-3">
-                            #{{ $item->id }}
+                            {{ $item->id }}
                         </td>
                         <x-table-data class="text-center capitalize"
                             value="{{ $item->created_at?->format('d-M-Y  H:i A') ?? 'N/A' }}" />

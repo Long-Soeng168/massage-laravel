@@ -15,6 +15,10 @@ class AdjustmentController extends Controller
      {
          return view('adjustments.index');
      }
+     public function adjustmentItems()
+     {
+        return view('adjustments.items');
+     }
 
      // Show the form for creating a new ISBN request
      public function create()

@@ -64,17 +64,17 @@
         </div>
     @endif
     <div class="grid grid-cols-2 gap-2 p-4 lg:grid-cols-4">
-        {{-- Start Customer --}}
+        {{-- Start supplier --}}
         <div class="relative z-0 w-full group">
-            <x-input-label for="customerId" :value="__('Customer')" />
+            <x-input-label for="supplier_id" :value="__('Supplier')" />
             <div class="flex flex-1 gap-1 mt-1 min-h-[2.5rem]">
                 <div class="flex justify-start flex-1">
-                    <x-select-option wire:model.live='customerId' id="customerId" name="customerId"
-                        class="customerId-select">
-                        <option wire:key='customerId-select' value="">All Customer</option>
-                        <option wire:key='customerId-' value="0">General</option>
+                    <x-select-option wire:model.live='supplier_id' id="supplier_id" name="supplier_id"
+                        class="supplier_id-select">
+                        <option wire:key='supplier_id-select' value="">All Supplier</option>
+                        <option wire:key='supplier_id-general' value="0">General</option>
 
-                        @forelse ($customers as $item)
+                        @forelse ($suppliers as $item)
                             <option wire:key='{{ $item->id }}' value="{{ $item->id }}">
                                 {{ $item->name }} <span>{{ $item->phone ? '('.$item->phone.')' : '' }}</span></option>
                         @empty
@@ -86,52 +86,13 @@
             </div>
         </div>
 
-        {{-- Start Payment Method --}}
         <div class="relative z-0 w-full group">
-            <x-input-label for="paymentId" :value="__('Pay By')" />
-            <div class="flex flex-1 gap-1 mt-1 min-h-[2.5rem]">
-                <div class="flex justify-start flex-1">
-                    <x-select-option wire:model.live='paymentId' id="paymentId" name="paymentId"
-                        class="paymentId-select">
-                        <option wire:key='paymentId-select' value="">All Payment</option>
-                        <option wire:key='paymentId-' value="0">Credit</option>
-
-                        @forelse ($payments as $item)
-                            <option wire:key='{{ $item->id }}' value="{{ $item->id }}">
-                                {{ $item->name }}</option>
-                        @empty
-                            <option wire:key='paymentId-select' value="">No Data..</option>
-                        @endforelse
-
-                    </x-select-option>
-                </div>
-            </div>
-        </div>
-
-        {{-- Select Item Type --}}
-        <div class="relative z-0 w-full group">
-            <x-input-label for="itemType" :value="__('Item Type')" />
-            <div class="flex flex-1 gap-1 mt-1 min-h-[2.5rem]">
-                <div class="flex justify-start flex-1">
-                    <x-select-option wire:model.live='itemType' id="itemType" name="itemType"
-                        class="itemType-select">
-                        <option wire:key='itemType-select' value="">All Items</option>
-                        <option wire:key='itemType-1' value="product">Product</option>
-                        <option wire:key='itemType-2' value="service">Service</option>
-                        <option wire:key='itemType-3' value="package">Package</option>
-                        <option wire:key='itemType-4' value="use_package">Use Package</option>
-                    </x-select-option>
-                </div>
-            </div>
-        </div>
-
-        <div class="relative z-0 w-full group">
-            <x-input-label for="createdBy" :value="__('Sale By')" />
+            <x-input-label for="createdBy" :value="__('Created By')" />
             <div class="flex flex-1 gap-1 mt-1 min-h-[2.5rem]">
                 <div class="flex justify-start flex-1">
                     <x-select-option wire:model.live='createdBy' id="createdBy" name="createdBy"
                         class="createdBy-select">
-                        <option wire:key='createdBy-select' value="">All Saler</option>
+                        <option wire:key='createdBy-select' value="">All User</option>
 
                         @forelse ($users as $item)
                             <option wire:key='{{ $item->id }}' value="{{ $item->id }}">
@@ -144,7 +105,21 @@
                 </div>
             </div>
         </div>
-        {{-- End Release From Year --}}
+
+        <div class="relative z-0 w-full group">
+            <x-input-label for="itemStatus" :value="__('Item Type')" />
+            <div class="flex flex-1 gap-1 mt-1 min-h-[2.5rem]">
+                <div class="flex justify-start flex-1">
+                    <x-select-option wire:model.live='itemStatus' id="itemStatus" name="itemStatus"
+                        class="itemStatus-select">
+                        <option wire:key='itemStatus-select' value="">All Status</option>
+                        <option wire:key='itemStatus-1' value="1">Recieved</option>
+                        <option wire:key='itemStatus-2' value="0">Not-Recieved</option>
+                    </x-select-option>
+                </div>
+            </div>
+        </div>
+
     </div>
     <div
         class="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
@@ -211,18 +186,16 @@
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-4 py-3">#Invoice_ID</th>
-                    <th scope="col" class="px-4 py-3">Item</th>
-                    <th scope="col" class="px-4 py-3">Item_Type</th>
+                    <th scope="col" class="px-4 py-3">Purchase_ID</th>
+                    <th scope="col" class="px-4 py-3">Product</th>
                     <th scope="col" class="px-4 py-3">Code</th>
-                    <th scope="col" class="px-4 py-3">Unit Price</th>
+                    <th scope="col" class="px-4 py-3">Unit Cost</th>
                     <th scope="col" class="px-4 py-3">Quantity</th>
-                    <th scope="col" class="px-4 py-3">Unit Discount</th>
                     <th scope="col" class="px-4 py-3">SubTotal</th>
                     <th scope="col" class="px-4 py-3 text-center">Date</th>
-                    <th scope="col" class="px-4 py-3 text-center">Customer</th>
-                    <th scope="col" class="px-4 py-3 text-center">Pay by</th>
-                    <th scope="col" class="px-4 py-3 text-center">Sale By</th>
+                    <th scope="col" class="px-4 py-3 text-center">Status</th>
+                    <th scope="col" class="px-4 py-3 text-center">Supplier</th>
+                    <th scope="col" class="px-4 py-3 text-center">Created_By</th>
                 </tr>
             </thead>
             <tbody>
@@ -230,40 +203,42 @@
                     <tr wire:key='{{ $item->id }}'
                         class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
                         <x-table-data class="w-4 px-4 py-3">
-                            {{ $item->invoice_id }}
+                            {{ $item->purchase_id }}
                         </x-table-data>
                         <x-table-data class="w-4 px-4 py-3">
-                            {{ $item->title }}
+                            {{ $item->product->title }}
                         </x-table-data>
-                        <x-table-data class="w-4 px-4 py-3 capitalize">
-                            {{ $item->type }}
+                        <x-table-data class="w-4 px-4 py-3 whitespace-nowrap">
+                            {{ $item->product->code }}
                         </x-table-data>
-                        <x-table-data class="w-4 px-4 py-3 capitalize whitespace-nowrap">
-                            {{ $item->type == 'product' ? $item->product?->code : ($item->type == 'service' ? $item->service?->code : ($item->type == 'package' ? $item->package?->code : 'N/A')) }}
-                        </x-table-data>
-                        <x-table-data class="w-4 px-4 py-3 text-red-600 capitalize whitespace-nowrap">
+                        <x-table-data class="w-4 px-4 py-3 text-red-600 whitespace-nowrap">
                             {{ $item->price }}$
                         </x-table-data>
-                        <x-table-data class="w-4 px-4 py-3 capitalize whitespace-nowrap">
+                        <x-table-data class="w-4 px-4 py-3 whitespace-nowrap">
                             {{ $item->quantity }}
                         </x-table-data>
-                        <x-table-data class="w-4 px-4 py-3 capitalize whitespace-nowrap">
-                            {{ $item->discount }}%
+                        <x-table-data class="w-4 px-4 py-3 whitespace-nowrap">
+                            {{ $item->subtotal }}
                         </x-table-data>
-                        <x-table-data class="w-4 px-4 py-3 text-red-600 capitalize whitespace-nowrap">
-                            <span class="font-bold">
-                                $
-                                {{ ($item->price - ($item->discount / 100) * $item->price) * $item->quantity }}
-                            </span>
-                        </x-table-data>
-
+                         
                         <x-table-data class="text-center capitalize whitespace-nowrap"
                             value="{{ $item->created_at?->format('d-M-Y') ?? 'N/A' }}" />
 
-                        <x-table-data class="text-center" value="{{ $item->customer?->name ?? 'N/A' }}" />
-                        <x-table-data class="text-center"
-                            value="{{ empty($item->payment) ? 'Credit' : ($item->payment ? $item->payment->name : 'N/A') }}" />
-
+                            <td class="text-center">
+                                <button data-modal-target="popup-modal-user-{{ $item->id }}"
+                                    data-modal-toggle="popup-modal-user-{{ $item->id }}">
+                                    @if ($item->purchase->status == 1)
+                                        <span class="w-4 px-4 py-3 font-semibold text-green-700">
+                                            Recieved
+                                        </span>
+                                    @else
+                                        <span class="w-4 px-4 py-3 font-semibold text-yellow-600 whitespace-nowrap">
+                                            Not-Recieved
+                                        </span>
+                                    @endif
+                                </button>
+                            </td>
+                        <x-table-data class="text-center" value="{{ $item->supplier?->name ?? 'N/A' }}" />
                         <x-table-data class="text-center" value="{{ $item->user?->name ?? 'N/A' }}" />
                     </tr>
                 @empty
@@ -325,10 +300,10 @@
                     @this.set('createdBy', data);
                 });
 
-                $('.customerId-select').select2();
-                $('.customerId-select').on('change', function(event) {
+                $('.supplier_id-select').select2();
+                $('.supplier_id-select').on('change', function(event) {
                     let data = $(this).val();
-                    @this.set('customerId', data);
+                    @this.set('supplier_id', data);
                 });
 
                 $('.paymentId-select').select2();
@@ -337,10 +312,10 @@
                     @this.set('paymentId', data);
                 });
 
-                $('.itemType-select').select2();
-                $('.itemType-select').on('change', function(event) {
+                $('.itemStatus-select').select2();
+                $('.itemStatus-select').on('change', function(event) {
                     let data = $(this).val();
-                    @this.set('itemType', data);
+                    @this.set('itemStatus', data);
                 });
             });
         }

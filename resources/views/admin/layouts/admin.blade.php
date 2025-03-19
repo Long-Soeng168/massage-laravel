@@ -571,14 +571,26 @@
                                 </li>
                                 <li>
                                     <a href="{{ url('admin/purchases') }}"
-                                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/purchases*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
+                                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/purchases*') && !request()->is('admin/purchases_items*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
                                         Purchases
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="{{ url('admin/purchases_items') }}"
+                                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/purchases_items*')  ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
+                                        Purchases's Items
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{ url('admin/adjustments') }}"
-                                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/adjustments*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
+                                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/adjustments*') && !request()->is('admin/adjustments_items*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
                                         Adjustments
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('admin/adjustments_items') }}"
+                                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/adjustments_items*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
+                                        Adjustments Items
                                     </a>
                                 </li>
 
@@ -700,7 +712,7 @@
                     @can('view sale')
                         <li class="mt-2">
                             <x-sidebar-item href="{{ url('admin/sales') }}"
-                                class="{{ request()->is('admin/sales*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
+                                class="{{ request()->is('admin/sales*') && !request()->is('admin/sales_items*') ? 'bg-slate-200 dark:bg-slate-500' : '' }}">
                                 <svg class="bg-white rounded dark:bg-gray-200" xmlns="http://www.w3.org/2000/svg"
                                     width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#121212"
                                     stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"

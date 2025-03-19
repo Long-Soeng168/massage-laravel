@@ -7,8 +7,11 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 use App\Models\Book;
+use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\Payment;
+use App\Models\User;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -23,10 +26,14 @@ class SaleItemsTableData extends Component
     public $perPage = 10;
 
     #[Url(history: true)]
-    public $sortBy = 'id';
+    public $sortBy = 'invoice_id';
 
     #[Url(history: true)]
     public $sortDir = 'DESC';
+    public $customerId = null;
+    public $createdBy = null;
+    public $paymentId = null;
+    public $itemType = null;
     public $start_date = null;
     public $end_date = null;
     public function mount()
@@ -34,120 +41,154 @@ class SaleItemsTableData extends Component
         $this->end_date = Carbon::tomorrow()->toDateString();
     }
 
-    public function setFilter($value)
-    {
-        $this->filter = $value;
-        $this->resetPage();
-    }
-
-    public function setSortBy($newSortBy)
-    {
-        if ($this->sortBy == $newSortBy) {
-            $newSortDir = ($this->sortDir == 'DESC') ? 'ASC' : 'DESC';
-            $this->sortDir = $newSortDir;
-        } else {
-            $this->sortBy = $newSortBy;
-        }
-    }
-    public function delete($id)
-    {
-        $item = Invoice::findOrFail($id);
-
-        $getedProducts = InvoiceItem::where('invoice_id', $id)->where('type', 'product')->get();
-        if ($item->status == 1 && (count($getedProducts) > 0)) {
-            foreach ($getedProducts as $product) {
-                $book = Book::find($product->product_id);
-                $book->update([
-                    'quantity' => $book->quantity + $product->quantity,
-                ]);
-            }
-        }
-
-        $item->delete();
-        session()->flash('success', 'Successfully deleted!');
-    }
-
-
     // ResetPage when updated search
     public function updatedSearch()
     {
         $this->resetPage();
     }
-
-    public function updateStatus($id, $status)
+    public function updatedCustomerId()
     {
-        $getedItem = Invoice::findOrFail($id);
-        if ($status == $getedItem->status) {
-            return;
-        }
-        $getedItem->update([
-            'status' => $status,
-            'updated_user_id' => request()->user()->id,
-        ]);
-
-        $getedProducts = InvoiceItem::where('invoice_id', $id)->get();
-
-        if ($status == 1) {
-            foreach ($getedProducts as $product) {
-                $book = Book::find($product->product_id);
-                $book->update([
-                    'quantity' => $book->quantity - $product->quantity,
-                ]);
-            }
-        } elseif ($status == 0) {
-            foreach ($getedProducts as $product) {
-                $book = Book::find($product->product_id);
-                $book->update([
-                    'quantity' => $book->quantity + $product->quantity,
-                ]);
-            }
-        }
-        $this->dispatch('livewire:updatedStatus');
-        // session()->flash('success', 'Update Successfully!');
+        $this->resetPage();
+    }
+    public function updatedCreatedBy()
+    {
+        $this->resetPage();
+    }
+    public function updatedPaymentId()
+    {
+        $this->resetPage();
+    }
+    public function updatedItemType()
+    {
+        $this->resetPage();
+    }
+    public function updated()
+    {
+        $this->dispatch('livewire:updated');
     }
 
     public function export()
     {
-        $startDate = $this->start_date; // Store start date
-        $endDate = $this->end_date;     // Store end date
+        $start_date = $this->start_date;  
+        $end_date = $this->end_date;    
+        $search = $this->search;    
+        $customerId = $this->customerId;    
+        $createdBy = $this->createdBy;    
+        $paymentId = $this->paymentId;    
+        $itemType = $this->itemType;    
+        $sortBy = $this->sortBy;    
+        $sortDir = $this->sortDir;    
 
-        return Excel::download(new class($startDate, $endDate) implements \Maatwebsite\Excel\Concerns\FromCollection, \Maatwebsite\Excel\Concerns\WithHeadings {
-            private $startDate;
-            private $endDate;
+        return Excel::download(new class($start_date, $end_date, $search, $customerId, $createdBy, $paymentId, $itemType, $sortBy, $sortDir) implements \Maatwebsite\Excel\Concerns\FromCollection, \Maatwebsite\Excel\Concerns\WithHeadings {
+            private $start_date;
+            private $end_date;
+            private $search;
+            private $customerId;
+            private $createdBy;
+            private $paymentId;
+            private $itemType;
+            private $sortBy;
+            private $sortDir;
 
-            public function __construct($startDate, $endDate)
+            public function __construct($start_date, $end_date, $search, $customerId, $createdBy, $paymentId, $itemType, $sortBy, $sortDir)
             {
-                $this->startDate = $startDate;
-                $this->endDate = $endDate;
+                $this->start_date = $start_date;
+                $this->end_date = $end_date;
+                $this->search = $search;
+                $this->customerId = $customerId;
+                $this->createdBy = $createdBy;
+                $this->paymentId = $paymentId;
+                $this->itemType = $itemType;
+                $this->sortBy = $sortBy;
+                $this->sortDir = $sortDir;
             }
 
             public function collection()
             {
-                // Fetch invoices with related data
-                return Invoice::with(['customer', 'user', 'updated_by', 'payment'])
-                    ->when($this->startDate, function ($query) {
-                        $query->where('created_at', '>=', $this->startDate);
-                    })
-                    ->when($this->endDate, function ($query) {
-                        $query->where('created_at', '<=', $this->endDate);
-                    })
-                    ->where('status', 1)
-                    ->get()
-                    ->map(function ($invoice, $index) {
-                        return [
-                            'No' => $index + 1,
-                            'ID' => $invoice->id,
-                            'Customer' => $invoice->customer->name ?? 'N/A', // Related customer name
-                            'Subtotal' => number_format($invoice->subtotal, 2) ?? 'N/A', // Format subtotal
-                            'Discount' => $invoice->discountType === 'percentage'
-                                ? ($invoice->discount . '%')
-                                : ('$' . number_format($invoice->discount, 2)),
-                            'Total' => number_format($invoice->total, 2) ?? 'N/A', // Format total
-                            'Payment Methode' => $invoice->paymentTypeId == 0 ? 'Credit' : ($invoice->payment ? $invoice->payment->name : 'N/A'), // Related payment type
-                            'Created By' => $invoice->user->name ?? 'N/A', // User who created the invoice
-                            'Created At' => $invoice->created_at->format('Y-m-d H:i:s'), // Format date
-                        ];
+                $query = InvoiceItem::query();
+                $query->with('invoice', 'customer', 'payment', 'user', 'product');
+
+                if (!empty($this->search)) {
+                    $searchTerm = trim($this->search);
+
+                    $query->where(function($subQuery) use ($searchTerm){
+                        $subQuery->where('title', 'LIKE', "%{$searchTerm}%")
+                        ->orWhereHas('product', function ($productQuery) use ($searchTerm) {
+                            $productQuery->where('code', 'LIKE', "%{$searchTerm}%");
+                        })
+                        ->orWhereHas('service', function ($serviceQuery) use ($searchTerm) {
+                            $serviceQuery->where('code', 'LIKE', "%{$searchTerm}%");
+                        })
+                        ->orWhereHas('package', function ($packageQuery) use ($searchTerm) {
+                            $packageQuery->where('code', 'LIKE', "%{$searchTerm}%");
+                        });
                     });
+                }
+
+                if ($this->customerId) {
+                    $query->whereHas('invoice', function ($invoiceQuery) {
+                        $invoiceQuery->where('customerId', $this->customerId);
+                    });
+                } elseif ($this->customerId == '0') {
+                    $query->whereHas('invoice', function ($invoiceQuery) {
+                        $invoiceQuery->where('customerId', null);
+                    });
+                }
+
+                if ($this->createdBy) {
+                    $query->whereHas('invoice', function ($invoiceQuery) {
+                        $invoiceQuery->where('userId', $this->createdBy);
+                    });
+                } elseif ($this->createdBy == '0') {
+                    $query->whereHas('invoice', function ($invoiceQuery) {
+                        $invoiceQuery->where('userId', null);
+                    });
+                }
+
+                if ($this->paymentId) {
+                    $query->whereHas('invoice', function ($invoiceQuery) {
+                        $invoiceQuery->where('paymentTypeId', $this->paymentId);
+                    });
+                } elseif ($this->paymentId == '0') {
+                    $query->whereHas('invoice', function ($invoiceQuery) {
+                        $invoiceQuery->where('paymentTypeId', 0);
+                    });
+                }
+                $query->whereHas('invoice', function ($invoiceQuery) {
+                    $invoiceQuery->where('status', 1);
+                });
+
+                if ($this->itemType) {
+                    $query->where('type', '=', $this->itemType);
+                }
+                if ($this->start_date) {
+                    $query->where('created_at', '>=', $this->start_date);
+                }
+
+                if ($this->end_date) {
+                    $query->where('created_at', '<=', $this->end_date);
+                }
+
+                return  $query
+                        ->orderBy($this->sortBy, $this->sortDir)->orderBy('id', 'desc')
+                        ->get()
+                        ->map(function ($item, $index) {
+                            return [
+                                'No' => $index + 1,
+                                'Invoice_ID' => $item->invoice_id,
+                                'Item' => $item->title,
+                                'Item Type' => $item->type,
+                                'Code' => $item->type == 'product' ? $item->product?->code : ($item->type == 'service' ? $item->service?->code : ($item->type == 'package' ? $item->package?->code : 'N/A')),
+                                'Unit Price' => $item->price,
+                                'Quantity' => $item->quantity,
+                                'Unit Discount' => $item->discount,
+                                'Sub Total' => ($item->price - ($item->discount / 100) * $item->price) * $item->quantity,
+                                'Date' => $item->created_at->format('Y-m-d H:i:s'),
+                                'Customer' => $item->customer->name ?? 'N/A',
+                                'Pay By' => empty($item->payment) ? 'Credit' : ($item->payment ? $item->payment->name : 'N/A'),
+                                'Sale By' => $item->user->name ?? 'N/A', // User who created the item
+                            ];
+                        });
             }
 
             public function headings(): array
@@ -155,32 +196,86 @@ class SaleItemsTableData extends Component
                 // Define the column headings
                 return [
                     'No',
-                    'Invoice ID',
+                    'Invoice_ID',
+                    'Item',
+                    'Item Type',
+                    'Code',
+                    'Unit Price ($)',
+                    'Quantity',
+                    'Unit Discount',
+                    'Sub Total ($)',
+                    'Date',
                     'Customer',
-                    'Subtotal',
-                    'Discount',
-                    'Total',
-                    'Payment Methode',
+                    'Pay By',
                     'Sale By',
-                    'Created At',
                 ];
             }
-        }, 'sales.xlsx');
+        }, 'salesItems.xlsx');
     }
 
 
     public function render()
     {
 
+        $customers = Customer::all();
+        $users = User::all();
+        $payments = Payment::orderBy('order_index', 'asc')->get();
+        
         $query = InvoiceItem::query();
+        $query->with('invoice', 'customer', 'payment', 'user', 'product');
 
-        if ($this->search) {
-            $query->where(function ($sub_query) {
-                $sub_query->where('id', 'LIKE', "%{$this->search}%")
-                    ->orWhere('name', 'LIKE', "%{$this->search}%");
+        if (!empty($this->search)) {
+            $searchTerm = trim($this->search);
+
+            $query->where(function($subQuery) use ($searchTerm){
+                $subQuery->where('title', 'LIKE', "%{$searchTerm}%")
+                  ->orWhereHas('product', function ($productQuery) use ($searchTerm) {
+                      $productQuery->where('code', 'LIKE', "%{$searchTerm}%");
+                  })
+                  ->orWhereHas('service', function ($serviceQuery) use ($searchTerm) {
+                      $serviceQuery->where('code', 'LIKE', "%{$searchTerm}%");
+                  })
+                  ->orWhereHas('package', function ($packageQuery) use ($searchTerm) {
+                    $packageQuery->where('code', 'LIKE', "%{$searchTerm}%");
+                });
             });
         }
 
+        if ($this->customerId) {
+            $query->whereHas('invoice', function ($invoiceQuery) {
+                $invoiceQuery->where('customerId', $this->customerId);
+            });
+        } elseif ($this->customerId == '0') {
+            $query->whereHas('invoice', function ($invoiceQuery) {
+                $invoiceQuery->where('customerId', null);
+            });
+        }
+        if ($this->createdBy) {
+            $query->whereHas('invoice', function ($invoiceQuery) {
+                $invoiceQuery->where('userId', $this->createdBy);
+            });
+        } elseif ($this->createdBy == '0') {
+            $query->whereHas('invoice', function ($invoiceQuery) {
+                $invoiceQuery->where('userId', null);
+            });
+        }
+        $query->whereHas('invoice', function ($invoiceQuery) {
+            $invoiceQuery->where('status', 1);
+        });
+
+        if ($this->paymentId) {
+            $query->whereHas('invoice', function ($invoiceQuery) {
+                $invoiceQuery->where('paymentTypeId', $this->paymentId);
+            });
+        } elseif ($this->paymentId == '0') {
+            $query->whereHas('invoice', function ($invoiceQuery) {
+                $invoiceQuery->where('paymentTypeId', 0);
+            });
+        }
+
+        if ($this->itemType) {
+            $query->where('type', '=', $this->itemType);
+        }
         if ($this->start_date) {
             $query->where('created_at', '>=', $this->start_date);
         }
@@ -188,8 +283,8 @@ class SaleItemsTableData extends Component
         if ($this->end_date) {
             $query->where('created_at', '<=', $this->end_date);
         }
+
         $items = $query
-            ->with('invoice', 'customer', 'payment', 'user', 'product')
             ->orderBy($this->sortBy, $this->sortDir)->orderBy('id', 'desc')
             ->paginate($this->perPage);
 
@@ -198,6 +293,9 @@ class SaleItemsTableData extends Component
 
         return view('livewire.sale-items-table-data', [
             'items' => $items,
+            'customers' => $customers,
+            'users' => $users,
+            'payments' => $payments,
         ]);
     }
 }
