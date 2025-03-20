@@ -139,6 +139,7 @@ Route::group([
     Route::resource('admin/people/publishers', PublisherController::class);
     Route::resource('admin/people/service_person', ServicePersonController::class);
     Route::resource('admin/people/customers', CustomerController::class);
+    Route::get('admin/people/customers_credits', [CustomerController::class, 'credits']);
     Route::get('admin/people/customers/{id}/invoice', [CustomerController::class, 'invoice']);
     Route::get('admin/people/adjust_credits', [CustomerController::class, 'adjust_credits']);
     Route::resource('admin/people/suppliers', SupplierController::class);

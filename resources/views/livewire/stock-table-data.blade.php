@@ -63,6 +63,59 @@
             </div>
         </div>
     @endif
+    <div class="grid grid-cols-2 gap-2 p-4 lg:grid-cols-4">
+        <div class="relative w-full group">
+            <x-input-label for="category_id" :value="__('Category')" />
+            <div class="flex flex-1 gap-1 mt-1">
+                <div class="flex justify-start flex-1 min-h-[2.5rem]">
+                    <x-select-option wire:model.live='category_id' id="category_id" name="category_id"
+                        class="category-select">
+                        <option wire:key='category' value="">All Category...</option>
+                        @forelse ($categories as $category)
+                            <option wire:key='{{ $category->id }}' value="{{ $category->id }}">
+                                {{ $category->name }} {{ ' / ' . $category->name_kh }}
+                            </option>
+                        @empty
+                            <option wire:key='nocateogry' value=""> --No Category--</option>
+                        @endforelse
+                    </x-select-option>
+                </div>
+            </div>
+            <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
+        </div>
+        <div class="relative w-full group">
+            <x-input-label for="brand" :value="__('Brand')" />
+            <div class="flex flex-1 gap-1 mt-1">
+                <div class="flex justify-start flex-1 min-h-[2.5rem]">
+                    <x-select-option class="brand-select" wire:model.live='brand_id' id="brand" name="brand_id">
+                        <option wire:key='brand' value="">Select brand...</option>
+                        @forelse ($brands as $brand)
+                            <option wire:key='{{ $brand->id }}' value="{{ $brand->id }}">
+                                {{ $brand->name }}
+                            </option>
+                        @empty
+                            <option wire:key='nobrand' value=""> --No brand--</option>
+                        @endforelse
+                    </x-select-option>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative z-0 w-full group">
+            <x-input-label for="quantitySort" :value="__('Quantity')" />
+            <div class="flex flex-1 gap-1 mt-1 min-h-[2.5rem]">
+                <div class="flex justify-start flex-1">
+                    <x-select-option wire:model.live='quantitySort' id="quantitySort" name="quantitySort"
+                        class="quantitySort-select">
+                        <option wire:key='quantitySort-select' value="">All</option>
+                        <option wire:key='quantitySort-1' value="zero">0</option>
+                        <option wire:key='quantitySort-2' value="below">{{'Below 0'}}</option>
+                        <option wire:key='quantitySort-2' value="above">{{'Above 0'}}</option>
+                    </x-select-option>
+                </div>
+            </div>
+        </div>
+    </div>
     <div
         class="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
         <div class="w-full md:w-1/2">
@@ -95,8 +148,8 @@
                 Add Book
             </x-primary-button> --}}
 
-            {{-- <div class="flex items-center w-full space-x-3 md:w-auto">
-                <button id="filterDropdownButton"
+            <div class="flex items-center w-full space-x-3 md:w-auto">
+                <button id="filterDropdownButton" wire:click='export'
                     class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                     type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
@@ -109,8 +162,7 @@
                     </svg>
                     Export
                 </button>
-
-            </div> --}}
+            </div>
         </div>
     </div>
     <div class="overflow-x-auto">
@@ -122,16 +174,20 @@
                     <th scope="col" class="px-4 py-3 " wire:click='setSortBy("title")'>
                         <div class="flex items-center cursor-pointer">
 
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-chevrons-up-down">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-chevrons-up-down">
                                 <path d="m7 15 5 5 5-5" />
                                 <path d="m7 9 5-5 5 5" />
                             </svg>
                             Title
                         </div>
                     </th>
+                    <th scope="col" class="px-4 py-3">Code</th>
                     <th scope="col" class="px-4 py-3 text-center">Quantity</th>
+                    <th scope="col" class="px-4 py-3 text-center">Category</th>
+                    <th scope="col" class="px-4 py-3 text-center">Brand</th>
                     <th scope="col" class="py-3 text-center">Action</th>
                 </tr>
             </thead>
@@ -165,8 +221,11 @@
                             @endif
                         </th>
                         <x-table-data value="{{ $item->title }}" />
+                        <x-table-data value="{{ $item->code }}" />
                         <x-table-data value="{{ $item->quantity }}"
                             class="text-center {{ $item->quantity < 10 ? 'text-red-400' : 'text-green-700' }}" />
+                        <x-table-data value="{{ $item->category?->name ?? 'N/A' }}" />
+                        <x-table-data value="{{ $item->brand?->name ?? 'N/A' }}" />
 
                         <td class="px-6 py-4">
                             <div class="flex items-start justify-center gap-3">
@@ -224,3 +283,94 @@
         </div>
     </div>
 </div>
+
+
+@script
+    <script>
+        $(document).ready(function() {
+            document.addEventListener('livewire:updated', event => {
+                console.log('updated'); // Logs 'Livewire component updated' to browser console
+                initFlowbite();
+            });
+        });
+        $(document).ready(function() {
+            document.addEventListener('livewire:updatedStatus', event => {
+                console.log('updated'); // Logs 'Livewire component updated' to browser console
+                initFlowbite();
+                location.reload();
+            });
+        });
+        initFlowbite();
+        // Function to check for URL changes
+        function checkUrlChange() {
+            let currentUrl = window.location.href;
+
+            // Check for URL changes every 500ms
+            setInterval(() => {
+                if (window.location.href !== currentUrl) {
+                    currentUrl = window.location.href;
+                    console.log('URL changed:', currentUrl);
+
+                    // Reinitialize your functions
+                    initFlowbite();
+                    initSelect2();
+                }
+            }, 500); // Adjust the interval as needed
+        }
+
+        // Start checking for URL changes
+        checkUrlChange();
+
+        function initSelect2() {
+            $(document).ready(function() {
+                $('.category-select').select2();
+                $('.category-select').on('change', function(event) {
+                    let data = $(this).val();
+                    @this.set('category_id', data);
+                });
+
+                $('.sub-category-select').select2();
+                $('.sub-category-select').on('change', function(event) {
+                    let data = $(this).val();
+                    @this.set('sub_category_id', data);
+                });
+
+                $('.brand-select').select2();
+                $('.brand-select').on('change', function(event) {
+                    let data = $(this).val();
+                    @this.set('brand_id', data);
+                });
+                $('.publisher-select').select2();
+                $('.publisher-select').on('change', function(event) {
+                    let data = $(this).val();
+                    @this.set('publisher_id', data);
+                });
+
+                $('.fromYear-select').select2();
+                $('.fromYear-select').on('change', function(event) {
+                    let data = $(this).val();
+                    @this.set('fromYear', data);
+                });
+                $('.toYear-select').select2();
+                $('.toYear-select').on('change', function(event) {
+                    let data = $(this).val();
+                    @this.set('toYear', data);
+                });
+            });
+        }
+        initSelect2();
+
+        $(document).ready(function() {
+            document.addEventListener('livewire:updated', event => {
+                console.log('updated'); // Logs 'Livewire component updated' to browser console
+                initSelect2();
+                initFlowbite();
+            });
+        });
+    </script>
+@endscript
+
+
+@script
+    <script></script>
+@endscript

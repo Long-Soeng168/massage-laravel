@@ -14,5 +14,17 @@ class AdjustmentItem extends Model
     {
         return $this->belongsTo(Book::class, 'product_id', 'id');
     }
+    public function adjustment()
+    {
+        return $this->belongsTo(Adjustment::class, 'adjustment_id', 'id');
+    }
+    public function user()
+    {
+        return $this->hasOneThrough(User::class, Adjustment::class, 'id', 'id', 'adjustment_id', 'user_id');
+    }
+    public function updatedBy()
+    {
+        return $this->hasOneThrough(User::class, Adjustment::class, 'id', 'id', 'adjustment_id', 'updated_user_id');
+    }
 
 }

@@ -76,7 +76,7 @@
                         style="width: 100%">
                         <option value="">Select Customer</option>
                         @foreach ($customers as $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                            <option value="{{ $customer->id }}">{{ $customer->name }} (Credit : ${{ $customer->credit }})</option>
                         @endforeach
                     </select>
                     <x-input-error :messages="$errors->get('customer_id')" class="mt-2" />

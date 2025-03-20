@@ -432,8 +432,8 @@ class BookTableData extends Component
         // Apply status filter and pagination
         $products = $query->paginate($this->perPage);
 
-        $categories = BookCategory::orderBy('name')->get();
         $subCategories = BookSubCategory::where('category_id', $this->category_id)->orderBy('name')->get();
+        $categories = BookCategory::orderBy('name')->get();
         $brands = BookBrand::orderBy('name')->get();
 
         return view('livewire.book-table-data', [

@@ -64,6 +64,65 @@
         </div>
     @endif
     <div class="grid grid-cols-2 gap-2 p-4 lg:grid-cols-4">
+        {{-- Start Customer --}}
+        <div class="relative z-0 w-full group">
+            <x-input-label for="customerId" :value="__('Customer')" />
+            <div class="flex flex-1 gap-1 mt-1 min-h-[2.5rem]">
+                <div class="flex justify-start flex-1">
+                    <x-select-option wire:model.live='customerId' id="customerId" name="customerId"
+                        class="customerId-select">
+                        <option wire:key='customerId-select' value="">All Customer</option>
+                        {{-- <option wire:key='customerId-' value="0">General</option> --}}
+
+                        @forelse ($customers as $item)
+                            <option wire:key='{{ $item->id }}' value="{{ $item->id }}">
+                                {{ $item->name }} <span>{{ $item->phone ? '('.$item->phone.')' : '' }}</span></option>
+                        @empty
+                            <option wire:key='{{ $year }}' value="{{ $year }}">
+                                No Data...</option>
+                        @endforelse
+                    </x-select-option>
+                </div>
+            </div>
+        </div>
+
+        {{-- Start Payment Method --}}
+        {{-- <div class="relative z-0 w-full group">
+            <x-input-label for="paymentId" :value="__('Pay By')" />
+            <div class="flex flex-1 gap-1 mt-1 min-h-[2.5rem]">
+                <div class="flex justify-start flex-1">
+                    <x-select-option wire:model.live='paymentId' id="paymentId" name="paymentId"
+                        class="paymentId-select">
+                        <option wire:key='paymentId-select' value="">All Payment</option>
+                        <option wire:key='paymentId-' value="0">Credit</option>
+
+                        @forelse ($payments as $item)
+                            <option wire:key='{{ $item->id }}' value="{{ $item->id }}">
+                                {{ $item->name }}</option>
+                        @empty
+                            <option wire:key='paymentId-select' value="">No Data..</option>
+                        @endforelse
+
+                    </x-select-option>
+                </div>
+            </div>
+        </div> --}}
+
+        {{-- Select Item Type --}}
+        
+        <div class="relative z-0 w-full group">
+            <x-input-label for="adjustmentAction" :value="__('Action')" />
+            <div class="flex flex-1 gap-1 mt-1 min-h-[2.5rem]">
+                <div class="flex justify-start flex-1">
+                    <x-select-option wire:model.live='adjustmentAction' id="adjustmentAction" name="adjustmentAction"
+                        class="adjustmentAction-select">
+                        <option wire:key='adjustmentAction-select' value="">All Action</option>
+                        <option wire:key='adjustmentAction-1' value="add">Add</option>
+                        <option wire:key='adjustmentAction-2' value="minus">Minus</option>
+                    </x-select-option>
+                </div>
+            </div>
+        </div>
 
         <div class="relative z-0 w-full group">
             <x-input-label for="createdBy" :value="__('Created By')" />
@@ -84,21 +143,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="relative z-0 w-full group">
-            <x-input-label for="adjustmentAction" :value="__('Action')" />
-            <div class="flex flex-1 gap-1 mt-1 min-h-[2.5rem]">
-                <div class="flex justify-start flex-1">
-                    <x-select-option wire:model.live='adjustmentAction' id="adjustmentAction" name="adjustmentAction"
-                        class="adjustmentAction-select">
-                        <option wire:key='adjustmentAction-select' value="">All Action</option>
-                        <option wire:key='adjustmentAction-1' value="add">Add</option>
-                        <option wire:key='adjustmentAction-2' value="minus">Minus</option>
-                    </x-select-option>
-                </div>
-            </div>
-        </div>
-
+        {{-- End Release From Year --}}
     </div>
     <div
         class="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
@@ -165,14 +210,14 @@
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-4 py-3">Adjustment_ID</th>
-                    <th scope="col" class="px-4 py-3">Product</th>
-                    <th scope="col" class="px-4 py-3">Code</th>
-                    <th scope="col" class="px-4 py-3">Quantity</th>
+                    <th scope="col" class="px-4 py-3">No</th>
+                    <th scope="col" class="px-4 py-3 text-center">Customer</th>
+                    <th scope="col" class="px-4 py-3 whitespace-nowrap">Amount ($)</th>
+                    <th scope="col" class="px-4 py-3 whitespace-nowrap">Credit ($)</th>
                     <th scope="col" class="px-4 py-3">Action</th>
                     <th scope="col" class="px-4 py-3 text-center">Date</th>
-                    <th scope="col" class="px-4 py-3 text-center">Created_By</th>
-                    <th scope="col" class="px-4 py-3 text-center">Updated_By</th>
+                    {{-- <th scope="col" class="px-4 py-3 text-center">Pay by</th> --}}
+                    <th scope="col" class="px-4 py-3 text-center">Created By</th>
                 </tr>
             </thead>
             <tbody>
@@ -180,25 +225,24 @@
                     <tr wire:key='{{ $item->id }}'
                         class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
                         <x-table-data class="w-4 px-4 py-3">
-                            {{ $item->adjustment_id }}
+                            {{ $loop->index + 1 }}
                         </x-table-data>
-                        <x-table-data class="w-4 px-4 py-3">
-                            {{ $item->product->title }}
+                        <x-table-data class="text-center" value="{{ $item->customer?->name ?? 'N/A' }}" />
+                        <x-table-data class="w-4 px-4 py-3 text-blue-600 whitespace-nowrap">
+                            $ {{ $item->amount }}
                         </x-table-data>
-                        <x-table-data class="w-4 px-4 py-3 whitespace-nowrap">
-                            {{ $item->product->code }}
-                        </x-table-data>
-                        <x-table-data class="w-4 px-4 py-3 whitespace-nowrap">
-                            {{ $item->quantity }}
+                        <x-table-data class="w-4 px-4 py-3 text-red-600 whitespace-nowrap">
+                            $ {{ $item->credit }}
                         </x-table-data>
                         <x-table-data class="w-4 px-4 py-3 whitespace-nowrap {{ $item->action == 'add' ? 'text-green-600' : 'text-red-500' }}">
                             {{ $item->action == 'add' ? 'Add (+)' : 'Minus (-)' }}
                         </x-table-data>
-                         
                         <x-table-data class="text-center capitalize whitespace-nowrap"
                             value="{{ $item->created_at?->format('d-M-Y') ?? 'N/A' }}" />
+
+                       
+
                         <x-table-data class="text-center" value="{{ $item->user?->name ?? 'N/A' }}" />
-                        <x-table-data class="text-center" value="{{ $item->updatedBy?->name ?? 'N/A' }}" />
                     </tr>
                 @empty
                     <tr>
@@ -259,16 +303,22 @@
                     @this.set('createdBy', data);
                 });
 
+                $('.customerId-select').select2();
+                $('.customerId-select').on('change', function(event) {
+                    let data = $(this).val();
+                    @this.set('customerId', data);
+                });
+
                 $('.paymentId-select').select2();
                 $('.paymentId-select').on('change', function(event) {
                     let data = $(this).val();
                     @this.set('paymentId', data);
                 });
 
-                $('.adjustmentAction-select').select2();
-                $('.adjustmentAction-select').on('change', function(event) {
+                $('.itemType-select').select2();
+                $('.itemType-select').on('change', function(event) {
                     let data = $(this).val();
-                    @this.set('adjustmentAction', data);
+                    @this.set('itemType', data);
                 });
             });
         }

@@ -21,6 +21,10 @@ class CustomerController extends Controller
     {
         return view('admin.customers.index');
     }
+    public function credits()
+    {
+        return view('admin.customers.credits');
+    }
 
     /**
      * Show the form for creating a new resource.

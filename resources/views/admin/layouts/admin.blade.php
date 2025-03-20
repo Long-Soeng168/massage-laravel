@@ -382,6 +382,7 @@
                     {{ $websiteInfo->name }}
                 </span>
             </a>
+            
             <div class="h-full px-3 py-5 overflow-y-auto bg-white dark:bg-gray-800 pb-[8rem]">
 
                 <ul>
@@ -508,8 +509,14 @@
                                 </li> --}}
                                 <li>
                                     <a href="{{ url('admin/people/customers') }}"
-                                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/people/customers*') ? 'bg-slate-200 capitalize dark:bg-slate-500' : '' }}">
+                                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/people/customers*') && !request()->is('admin/people/customers_credits*') ? 'bg-slate-200 capitalize dark:bg-slate-500' : '' }}">
                                         Customers
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('admin/people/customers_credits') }}"
+                                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 {{ request()->is('admin/people/customers_credits*') ? 'bg-slate-200 capitalize dark:bg-slate-500' : '' }}">
+                                        Credits History
                                     </a>
                                 </li>
                                 {{-- <li>

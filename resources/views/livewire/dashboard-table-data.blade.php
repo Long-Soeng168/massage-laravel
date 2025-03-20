@@ -1,5 +1,6 @@
 <div class="">
     <div class="h-full space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
+        @can('view item')
         <a href="/admin/books"
             class="flex flex-col items-center justify-center w-full p-4 hover:bg-slate-100 dark:hover:bg-gray-700">
             <span class="flex items-center justify-center object-contain w-16 rounded dark:bg-gray-200">
@@ -19,6 +20,7 @@
                 <dd class="text-gray-500 dark:text-gray-400">Products</dd>
             </div>
         </a>
+
         <a href="/admin/services"
             class="flex flex-col items-center justify-center w-full p-4 hover:bg-slate-100 dark:hover:bg-gray-700">
             <span class="flex items-center justify-center object-contain w-16 rounded dark:bg-gray-200">
@@ -39,7 +41,8 @@
                 <dt class="mt-2 mb-2 text-3xl font-extrabold dark:text-white">{{ $counts['services'] }}</dt>
                 <dd class="text-gray-500 dark:text-gray-400">Services</dd>
             </div>
-        </a>
+        </a> 
+
         <a href="/admin/packages"
             class="flex flex-col items-center justify-center w-full p-4 hover:bg-slate-100 dark:hover:bg-gray-700">
             <span class="flex items-center justify-center object-contain w-16 rounded dark:bg-gray-200">
@@ -57,7 +60,7 @@
                 <dt class="mt-2 mb-2 text-3xl font-extrabold dark:text-white">{{ $counts['packages'] }}</dt>
                 <dd class="text-gray-500 dark:text-gray-400">Packages</dd>
             </div>
-        </a>
+        </a> 
 
         <a href="/admin/brands"
             class="flex flex-col items-center justify-center w-full p-4 hover:bg-slate-100 dark:hover:bg-gray-700">
@@ -68,7 +71,10 @@
                 <dd class="text-gray-500 dark:text-gray-400">Brands</dd>
             </div>
         </a>
+        @endcan
 
+
+        @can('view people')
         <a href="/admin/people/customers"
             class="flex flex-col items-center justify-center w-full p-4 hover:bg-slate-100 dark:hover:bg-gray-700">
             <img src="{{ asset('assets/icons/user.png') }}" alt="icon"
@@ -88,6 +94,8 @@
                 <dd class="text-gray-500 dark:text-gray-400">Suppliers</dd>
             </div>
         </a>
+        @endcan
+
 
         {{-- <div class="flex flex-col items-center justify-center w-full p-4">
             <img src="{{ asset('assets/icons/news.png') }}" alt="icon"
@@ -98,6 +106,7 @@
             </div>
         </div> --}}
 
+        @can('view user')
         <a href="/admin/users"
             class="flex flex-col items-center justify-center w-full p-4 hover:bg-slate-100 dark:hover:bg-gray-700">
             <img src="{{ asset('assets/icons/user.png') }}" alt="icon"
@@ -107,5 +116,7 @@
                 <dd class="text-gray-500 dark:text-gray-400">Users</dd>
             </div>
         </a>
+        @endcan
+
     </div>
 </div>
