@@ -53,6 +53,7 @@ class CustomerTableData extends Component
     public function delete($id)
     {
         $publisher = Customer::find($id);
+        CustomerCredit::where('customer_id', $id)->delete();
         $publisher->delete();
 
         session()->flash('success', 'Customer successfully deleted!');
