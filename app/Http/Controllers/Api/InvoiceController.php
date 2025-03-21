@@ -22,6 +22,11 @@ class InvoiceController extends Controller
         $items = Invoice::where('status', 0)->with('items', 'customer.packages')->get();
         return response()->json($items);
     }
+    public function recent_invoices(Request $request)
+    {
+        $items = Invoice::where('status', 1)->with('items', 'customer.packages')->get();
+        return response()->json($items);
+    }
     public function delete($id)
     {
         try {

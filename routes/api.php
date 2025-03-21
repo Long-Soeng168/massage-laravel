@@ -49,6 +49,7 @@ Route::get('/telegram_message', function(Request $request){
 });
 
 Route::get('/holds', [InvoiceController::class, 'holds']);
+Route::get('/recent_invoices', [InvoiceController::class, 'recent_invoices']);
 Route::delete('/holds/{id}', [InvoiceController::class, 'delete'])->middleware('auth:sanctum');
 
 Route::post('/invoices', [InvoiceController::class, 'store']);
