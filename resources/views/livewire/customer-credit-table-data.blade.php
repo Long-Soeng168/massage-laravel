@@ -211,7 +211,7 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-4 py-3">No</th>
-                    <th scope="col" class="px-4 py-3 text-center">Customer</th>
+                    <th scope="col" class="px-4 py-3">Customer</th>
                     <th scope="col" class="px-4 py-3 whitespace-nowrap">Amount ($)</th>
                     <th scope="col" class="px-4 py-3 whitespace-nowrap">Credit ($)</th>
                     <th scope="col" class="px-4 py-3">Action</th>
@@ -227,7 +227,14 @@
                         <x-table-data class="w-4 px-4 py-3">
                             {{ $loop->index + 1 }}
                         </x-table-data>
-                        <x-table-data class="text-center" value="{{ $item->customer?->name ?? 'N/A' }}" />
+                        <x-table-data>
+                            <span>
+                                {{ $item->customer?->name ?? 'N/A' }} 
+                                @if ($item->customer?->phone)
+                                    ({{ $item->customer?->phone }})
+                                @endif
+                            </span>
+                        </x-table-data>
                         <x-table-data class="w-4 px-4 py-3 text-blue-600 whitespace-nowrap">
                             $ {{ $item->amount }}
                         </x-table-data>
