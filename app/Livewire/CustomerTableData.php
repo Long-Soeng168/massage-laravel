@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Customer;
+use App\Models\CustomerCredit;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -58,32 +59,43 @@ class CustomerTableData extends Component
     }
 
     // ==========Add New Publisher============
-    public $newPublisherName = null;
-    public $newPublisherPhone = null;
-    public $newPublisherAddress = null;
-    public $newPublisherGender = null;
-    public $newPublisherCredit = null;
+    public $newCustomerName = null;
+    public $newCustomerPhone = null;
+    public $newCustomerAddress = null;
+    public $newCustomerGender = null;
+    public $newCustomerCredit = null;
+    public $newCustomerAmount = null;
 
-    public function saveNewPublisher()
+    public function saveNewCustomer()
     {
         try {
             $validated = $this->validate([
-                'newPublisherName' => 'required|string|max:255',
+                'newCustomerName' => 'required|string|max:255',
             ]);
 
-            Customer::create([
-                'name' => $this->newPublisherName,
-                'gender' => $this->newPublisherGender,
-                'address' => $this->newPublisherAddress,
-                'phone' => $this->newPublisherPhone,
-                'credit' => $this->newPublisherCredit,
+            $created_customer = Customer::create([
+                'name' => $this->newCustomerName,
+                'gender' => $this->newCustomerGender,
+                'address' => $this->newCustomerAddress,
+                'phone' => $this->newCustomerPhone,
+                'credit' => $this->newCustomerCredit ?? 0,
                 'add_by_user_id' => request()->user()->id,
                 'updated_user_id' => request()->user()->id,
             ]);
 
+            if ($this->newCustomerCredit > 0 && $this->newCustomerCredit != null) {
+                CustomerCredit::create([
+                    'customer_id' => $created_customer->id,
+                    'action' => 'add',
+                    'add_by_user_id' => request()->user()->id,
+                    'amount' => $this->newCustomerAmount ?? 0,
+                    'credit' => $this->newCustomerCredit,
+                ]);
+            }
+
             session()->flash('success', 'Add New Customer successfully!');
 
-            $this->reset(['newPublisherName', 'newPublisherGender', 'newPublisherPhone', 'newPublisherAddress', 'newPublisherCredit']);
+            $this->reset(['newCustomerName', 'newCustomerGender', 'newCustomerPhone', 'newCustomerAddress', 'newCustomerCredit']);
         } catch (\Illuminate\Validation\ValidationException $e) {
             session()->flash('error', $e->validator->errors()->all());
         }
@@ -187,7 +199,7 @@ class CustomerTableData extends Component
 
             public function collection()
             {
-                return Customer::with('updated_by')->get()
+                return Customer::with('updated_by', 'invoices')->get()
                     ->map(function ($customer) {
                         return [
                             'ID' => $customer->id,
@@ -196,6 +208,7 @@ class CustomerTableData extends Component
                             'Phone' => $customer->phone ?? 'N/A',
                             'Address' => $customer->address ?? 'N/A',
                             'Credit' => $customer->credit ?? '0',
+                            'Total Invoices' => count($customer->invoices) ?? '0',
                             'Updated By' => $customer->updated_by->name ?? 'N/A',
                         ];
                     });
@@ -211,6 +224,7 @@ class CustomerTableData extends Component
                     'Phone',
                     'Address',
                     'Credit ($)',
+                    'Total Invoices',
                     'Updated By',
                 ];
             }

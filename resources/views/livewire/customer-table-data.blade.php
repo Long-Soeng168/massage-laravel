@@ -146,7 +146,7 @@
                                     <label for="name"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                                     <input wire:key="{{ rand() }}" type="text" name="name"
-                                        id="name" wire:model='newPublisherName'
+                                        id="name" wire:model='newCustomerName'
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Name">
                                 </div>
@@ -155,7 +155,7 @@
                                     <label for="phone"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
                                     <input wire:key="{{ rand() }}" type="text" name="phone"
-                                        id="phone" wire:model='newPublisherPhone'
+                                        id="phone" wire:model='newCustomerPhone'
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="phone">
                                 </div>
@@ -163,7 +163,7 @@
                                     <label for="Address"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
                                     <input wire:key="{{ rand() }}" type="text" name="address"
-                                        id="Address" wire:model='newPublisherAddress'
+                                        id="Address" wire:model='newCustomerAddress'
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Address">
                                 </div>
@@ -171,7 +171,7 @@
                                 <div class="col-span-2 sm:col-span-2">
                                     <label for="category"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
-                                    <select id="category" wire:model='newPublisherGender'
+                                    <select id="category" wire:model='newCustomerGender'
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                         <option value="">Select gender</option>
                                         <option value="male">Male</option>
@@ -180,19 +180,28 @@
                                     </select>
                                 </div>
 
-                                <div class="col-span-2">
+                                <div class="col-span-1">
+                                    <label for="Amount"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount
+                                        ($)</label>
+                                    <input wire:key="{{ rand() }}" type="text" name="Amount"
+                                        id="Amount" wire:model='newCustomerAmount'
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        placeholder="Amount">
+                                </div>
+                                <div class="col-span-1">
                                     <label for="Credit"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Credit
                                         ($)</label>
                                     <input wire:key="{{ rand() }}" type="text" name="Credit"
-                                        id="Credit" wire:model='newPublisherCredit'
+                                        id="Credit" wire:model='newCustomerCredit'
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Credit">
                                 </div>
                             </div>
                             <div class="text-right">
                                 <button data-modal-target="Publisher_modal" data-modal-toggle="Publisher_modal"
-                                    type="button" wire:click='saveNewPublisher' wire:target="saveNewPublisher"
+                                    type="button" wire:click='saveNewCustomer' wire:target="saveNewCustomer"
                                     wire:loading.attr="disabled"
                                     class="text-white mt-2 inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     <svg class="w-5 h-5 me-1 -ms-1" fill="currentColor" viewBox="0 0 20 20"
