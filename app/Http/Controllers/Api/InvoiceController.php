@@ -24,7 +24,7 @@ class InvoiceController extends Controller
     }
     public function recent_invoices(Request $request)
     {
-        $items = Invoice::where('status', 1)->with('items', 'customer.packages')->limit(12)->get();
+        $items = Invoice::where('status', 1)->orderBy('id', 'desc')->with('items', 'customer.packages')->limit(12)->get();
         return response()->json($items);
     }
     public function delete($id)
