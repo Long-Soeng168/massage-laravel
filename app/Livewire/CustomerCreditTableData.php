@@ -119,15 +119,11 @@ class CustomerCreditTableData extends Component
                     $searchTerm = trim($this->search);
 
                     $query->where(function ($subQuery) use ($searchTerm) {
-                        $subQuery->where('title', 'LIKE', "%{$searchTerm}%")
-                            ->orWhereHas('product', function ($productQuery) use ($searchTerm) {
-                                $productQuery->where('code', 'LIKE', "%{$searchTerm}%");
-                            })
-                            ->orWhereHas('service', function ($serviceQuery) use ($searchTerm) {
-                                $serviceQuery->where('code', 'LIKE', "%{$searchTerm}%");
-                            })
-                            ->orWhereHas('package', function ($packageQuery) use ($searchTerm) {
-                                $packageQuery->where('code', 'LIKE', "%{$searchTerm}%");
+                        $subQuery
+                            ->orWhereHas('customer', function ($productQuery) use ($searchTerm) {
+                                $productQuery->where('name', 'LIKE', "%{$searchTerm}%")
+                                    ->orWhere('phone', 'LIKE', "%{$searchTerm}%")
+                                    ->orWhere('address', 'LIKE', "%{$searchTerm}%");
                             });
                     });
                 }
@@ -209,15 +205,11 @@ class CustomerCreditTableData extends Component
             $searchTerm = trim($this->search);
 
             $query->where(function ($subQuery) use ($searchTerm) {
-                $subQuery->where('title', 'LIKE', "%{$searchTerm}%")
-                    ->orWhereHas('product', function ($productQuery) use ($searchTerm) {
-                        $productQuery->where('code', 'LIKE', "%{$searchTerm}%");
-                    })
-                    ->orWhereHas('service', function ($serviceQuery) use ($searchTerm) {
-                        $serviceQuery->where('code', 'LIKE', "%{$searchTerm}%");
-                    })
-                    ->orWhereHas('package', function ($packageQuery) use ($searchTerm) {
-                        $packageQuery->where('code', 'LIKE', "%{$searchTerm}%");
+                $subQuery
+                    ->orWhereHas('customer', function ($productQuery) use ($searchTerm) {
+                        $productQuery->where('name', 'LIKE', "%{$searchTerm}%")
+                            ->orWhere('phone', 'LIKE', "%{$searchTerm}%")
+                            ->orWhere('address', 'LIKE', "%{$searchTerm}%");
                     });
             });
         }
