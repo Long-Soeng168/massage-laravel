@@ -78,7 +78,7 @@
                             <option wire:key='{{ $item->id }}' value="{{ $item->id }}">
                                 {{ $item->name }} <span>{{ $item->phone ? '('.$item->phone.')' : '' }}</span></option>
                         @empty
-                            <option wire:key='{{ $year }}' value="{{ $year }}">
+                            <option>
                                 No Data...</option>
                         @endforelse
                     </x-select-option>
@@ -98,7 +98,7 @@
                             <option wire:key='{{ $item->id }}' value="{{ $item->id }}">
                                 {{ $item->name }}</option>
                         @empty
-                            <option wire:key='{{ $year }}' value="{{ $year }}">
+                            <option>
                                 No Data...</option>
                         @endforelse
                     </x-select-option>
