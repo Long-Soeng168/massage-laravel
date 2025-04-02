@@ -60,6 +60,7 @@ class CustomerController extends Controller
     }
     public function updateCredit(Request $request, string $id)
     {
+        return $request->all();
         $validated = $request->validate([
             'action' => 'required',
             'amount' => 'required',
