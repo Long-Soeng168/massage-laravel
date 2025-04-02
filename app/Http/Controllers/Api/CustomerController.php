@@ -75,6 +75,7 @@ class CustomerController extends Controller
             'action' => $request->action,
             'add_by_user_id' => request()->user()->id,
             'amount' => $request->amount,
+            'status' => 1,
             'credit' => $request->credit,
         ]);
 
