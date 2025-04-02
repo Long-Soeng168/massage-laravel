@@ -66,7 +66,7 @@ class CustomerController extends Controller
             'credit' => 'required',
         ]);
 
-        return $validated;
+        // return $validated;
 
         $customer = Customer::find($id);
 
