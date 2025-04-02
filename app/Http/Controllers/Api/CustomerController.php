@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\CustomerCredit;
 
 class CustomerController extends Controller
 {
@@ -56,6 +57,33 @@ class CustomerController extends Controller
     public function update(Request $request, string $id)
     {
         //
+    }
+    public function updateCredit(Request $request, string $id)
+    {
+        $validated = $request->validate([
+            'action' => 'required',
+            'amount' => 'required',
+            'credit' => 'required',
+        ]);
+
+        $customer = Customer::find($id);
+
+        // dd($validated);
+
+        CustomerCredit::create([
+            'customer_id' => $id,
+            'action' => $request->action,
+            'add_by_user_id' => request()->user()->id,
+            'amount' => $request->amount,
+            'credit' => $request->credit,
+        ]);
+
+        $customer->update([
+            'credit' => $request->action == 'add' ? $customer->credit + $request->credit : $customer->credit - $request->credit,
+            'updated_user_id' => request()->user()->id,
+        ]);
+
+        return response()->json('success', 'Adjust Credit Successfully.');
     }
 
     /**
