@@ -66,7 +66,10 @@ class CustomerController extends Controller
             'credit' => 'required',
         ]);
 
-        $customer = Customer::findOrFail($id);
+        $customer = Customer::find($id);
+        if(!$customer) {
+            return response()->json('error', 'Customer not found.');
+        }
 
         // dd($validated);
 
