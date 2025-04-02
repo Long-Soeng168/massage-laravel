@@ -58,7 +58,7 @@ Route::post('/invoices', [InvoiceController::class, 'store']);
 Route::group([
     'middleware' => 'auth:sanctum'
 ], function () {
-    Route::post('update_credit', [CustomerController::class, 'updateCredit']);
+    Route::post('update_credit/{id}', [CustomerController::class, 'updateCredit']);
 });
 
 
