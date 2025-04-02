@@ -67,9 +67,6 @@ class CustomerController extends Controller
         ]);
 
         $customer = Customer::find($id);
-        if(!$customer) {
-            return response()->json('error', 'Customer not found.');
-        }
 
         // dd($validated);
 
