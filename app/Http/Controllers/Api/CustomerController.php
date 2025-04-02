@@ -32,41 +32,53 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->all();
-        $validated = $request->validate([
-            'newCustomerName' => 'required|string|max:255',
-            'newCustomerPhone' => 'nullable|string|max:20',
-            'newCustomerAddress' => 'nullable|string|max:255',
-            'newCustomerGender' => 'nullable|string|max:10',
-            'newCustomerAmount' => 'nullable|numeric',
-            'newCustomerCredit' => 'nullable|numeric',
-        ]);
-
-        $created_customer = Customer::create([
-            'name' => $request->newCustomerName,
-            'gender' => $request->newCustomerGender,
-            'address' => $request->newCustomerAddress,
-            'phone' => $request->newCustomerPhone,
-            'credit' => $request->newCustomerCredit ?? 0,
-            'add_by_user_id' => $request->user()->id,
-            'updated_user_id' => $request->user()->id,
-        ]);
-
-        if ($request->newCustomerCredit > 0 && $request->newCustomerCredit != null) {
-            CustomerCredit::create([
-                'customer_id' => $created_customer->id,
-                'action' => 'add',
-                'add_by_user_id' => $request->user()->id,
-                'amount' => $request->newCustomerAmount ?? 0,
-                'credit' => $request->newCustomerCredit,
+        try {
+            // Validate the request data
+            $validated = $request->validate([
+                'newCustomerName' => 'required|string|max:255',
+                'newCustomerPhone' => 'nullable|string|max:20',
+                'newCustomerAddress' => 'nullable|string|max:255',
+                'newCustomerGender' => 'nullable|string|max:10',
+                'newCustomerAmount' => 'nullable|numeric',
+                'newCustomerCredit' => 'nullable|numeric',
             ]);
-        }
 
-        return response()->json([
-            'message' => 'Customer created successfully',
-            'customer' => $created_customer
-        ]);
+            // Create a new customer record
+            $created_customer = Customer::create([
+                'name' => $request->newCustomerName,
+                'gender' => $request->newCustomerGender,
+                'address' => $request->newCustomerAddress,
+                'phone' => $request->newCustomerPhone,
+                'credit' => $request->newCustomerCredit ?? 0,
+                'add_by_user_id' => $request->user()->id,
+                'updated_user_id' => $request->user()->id,
+            ]);
+
+            // If credit is provided, add a customer credit record
+            if ($request->newCustomerCredit > 0 && $request->newCustomerCredit != null) {
+                CustomerCredit::create([
+                    'customer_id' => $created_customer->id,
+                    'action' => 'add',
+                    'add_by_user_id' => $request->user()->id,
+                    'amount' => $request->newCustomerAmount ?? 0,
+                    'credit' => $request->newCustomerCredit,
+                ]);
+            }
+
+            // Return success response
+            return response()->json([
+                'message' => 'Customer created successfully',
+                'customer' => $created_customer
+            ], 201);
+        } catch (\Exception $e) {
+            // If an error occurs, return a JSON error response
+            return response()->json([
+                'error' => 'An error occurred while creating the customer.',
+                'details' => $e->getMessage()
+            ], 500);
+        }
     }
+
 
 
     /**
