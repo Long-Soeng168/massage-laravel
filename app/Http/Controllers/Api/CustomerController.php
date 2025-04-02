@@ -48,15 +48,15 @@ class CustomerController extends Controller
             'address' => $request->newCustomerAddress,
             'phone' => $request->newCustomerPhone,
             'credit' => $request->newCustomerCredit ?? 0,
-            'add_by_user_id' => request()->user()->id,
-            'updated_user_id' => request()->user()->id,
+            'add_by_user_id' => $request->user()->id,
+            'updated_user_id' => $request->user()->id,
         ]);
 
         if ($request->newCustomerCredit > 0 && $request->newCustomerCredit != null) {
             CustomerCredit::create([
                 'customer_id' => $created_customer->id,
                 'action' => 'add',
-                'add_by_user_id' => request()->user()->id,
+                'add_by_user_id' => $request->user()->id,
                 'amount' => $request->newCustomerAmount ?? 0,
                 'credit' => $request->newCustomerCredit,
             ]);
