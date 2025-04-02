@@ -32,8 +32,41 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'newCustomerName' => 'required|string|max:255',
+            'newCustomerPhone' => 'nullable|string|max:20',
+            'newCustomerAddress' => 'nullable|string|max:255',
+            'newCustomerGender' => 'nullable|string|max:10',
+            'newCustomerAmount' => 'nullable|numeric',
+            'newCustomerCredit' => 'nullable|numeric',
+        ]);
+
+        $created_customer = Customer::create([
+            'name' => $request->newCustomerName,
+            'gender' => $request->newCustomerGender,
+            'address' => $request->newCustomerAddress,
+            'phone' => $request->newCustomerPhone,
+            'credit' => $request->newCustomerCredit ?? 0,
+            'add_by_user_id' => request()->user()->id,
+            'updated_user_id' => request()->user()->id,
+        ]);
+
+        if ($request->newCustomerCredit > 0 && $request->newCustomerCredit != null) {
+            CustomerCredit::create([
+                'customer_id' => $created_customer->id,
+                'action' => 'add',
+                'add_by_user_id' => request()->user()->id,
+                'amount' => $request->newCustomerAmount ?? 0,
+                'credit' => $request->newCustomerCredit,
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Customer created successfully',
+            'customer' => $created_customer
+        ]);
     }
+
 
     /**
      * Display the specified resource.
