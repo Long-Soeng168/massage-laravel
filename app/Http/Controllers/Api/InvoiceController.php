@@ -19,12 +19,12 @@ class InvoiceController extends Controller
 
     public function holds(Request $request)
     {
-        $items = Invoice::where('status', 0)->with('items', 'customer.packages')->get();
+        $items = Invoice::where('status', 0)->with('items', 'user', 'customer.packages')->get();
         return response()->json($items);
     }
     public function recent_invoices(Request $request)
     {
-        $items = Invoice::where('status', 1)->orderBy('id', 'desc')->with('items', 'customer.packages')->limit(12)->get();
+        $items = Invoice::where('status', 1)->orderBy('id', 'desc')->with('items', 'user', 'customer.packages')->limit(12)->get();
         return response()->json($items);
     }
     public function delete($id)
